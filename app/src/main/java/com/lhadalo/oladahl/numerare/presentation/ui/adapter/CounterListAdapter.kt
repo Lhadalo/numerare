@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.numerare.presentation.view.adapter
+package com.lhadalo.oladahl.numerare.presentation.ui.adapter
 
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import com.lhadalo.oladahl.numerare.util.extensions.inflate
 import kotlinx.android.synthetic.main.list_item_counters.view.*
 import kotlinx.android.synthetic.main.list_item_header.view.*
 
-class CounterListAdapter(private val callback: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val counters = ArrayList<Counter>()
 
@@ -39,8 +39,6 @@ class CounterListAdapter(private val callback: () -> Unit) : RecyclerView.Adapte
 
     override fun getItemViewType(pos: Int) = if (pos == 0) TYPE_HEADER else TYPE_ITEM
 
-    fun getCounter(position: Int) = counters[position-1]
-
     fun addCounters(counters: List<Counter>?) {
         this.counters.clear()
         counters?.let { this.counters.addAll(counters) }
@@ -54,12 +52,12 @@ class CounterListAdapter(private val callback: () -> Unit) : RecyclerView.Adapte
     }
 
     class CounterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(counter: Counter, callback: () -> Unit) = with(itemView) {
+        fun bind(counter: Counter, callback: (Int) -> Unit) = with(itemView) {
             tv_counter_title.text = counter.title
             tv_counter_type.text = counter.type
             tv_counter_value.text = counter.value.toString()
 
-            setOnClickListener { callback() }
+            setOnClickListener { callback(counter.id) }
         }
     }
 }

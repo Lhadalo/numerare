@@ -1,6 +1,7 @@
 package com.lhadalo.oladahl.numerare.presentation.model
 
 import com.lhadalo.oladahl.numerare.data.Counter
+import io.reactivex.Completable
 import io.reactivex.Flowable
 
 interface CounterModel {
