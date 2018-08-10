@@ -7,20 +7,20 @@ import io.reactivex.Flowable
 interface CounterDao {
 
     @Insert
-    fun insert(counter: Counter)
+    fun insert(counter: CounterEntity)
 
     @Query("SELECT * FROM counter_table ORDER BY id ASC")
-    fun getAll() : Flowable<List<Counter>>
+    fun getAll() : Flowable<List<CounterEntity>>
 
     @Query("SELECT * FROM counter_table WHERE id=:id")
-    fun getCounter(id: Int) : Flowable<Counter>
+    fun getCounter(id: Int) : Flowable<CounterEntity>
 
     @Update
-    fun update(counter: Counter)
+    fun update(counter: CounterEntity)
 
     @Query("UPDATE counter_table SET value=:newValue where id=:id")
     fun updateCount(id: Int, newValue: Int)
 
     @Delete
-    fun delete(counter: Counter)
+    fun delete(counter: CounterEntity)
 }

@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Numerare</string>
+
+    <array name="spinner_dates">
+        <item>day</item>
+        <item>week</item>
+        <item>month</item>
+    </array>
+
+    <array name="spinner_times">
+        <item>08:00</item>
+        <item>12:00</item>
+        <item>17:00</item>
+        <item>22:00</item>
+        <item>Other...</item>
+    </array>
+
+    <array name="spinner_auto">
+        <item>Increase</item>
+        <item>Date</item>
+    </array>
+
 </resources>

@@ -4,14 +4,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lhadalo.oladahl.numerare.R
-import com.lhadalo.oladahl.numerare.data.Counter
+import com.lhadalo.oladahl.numerare.data.CounterEntity
 import com.lhadalo.oladahl.numerare.util.extensions.inflate
 import kotlinx.android.synthetic.main.list_item_counters.view.*
 import kotlinx.android.synthetic.main.list_item_header.view.*
 
 class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val counters = ArrayList<Counter>()
+    private val counters = ArrayList<CounterEntity>()
 
     companion object {
         private const val TYPE_HEADER = 0
@@ -39,7 +39,7 @@ class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Ada
 
     override fun getItemViewType(pos: Int) = if (pos == 0) TYPE_HEADER else TYPE_ITEM
 
-    fun addCounters(counters: List<Counter>?) {
+    fun addCounters(counters: List<CounterEntity>?) {
         this.counters.clear()
         counters?.let { this.counters.addAll(counters) }
         notifyDataSetChanged()
@@ -52,7 +52,7 @@ class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Ada
     }
 
     class CounterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(counter: Counter, callback: (Int) -> Unit) = with(itemView) {
+        fun bind(counter: CounterEntity, callback: (Int) -> Unit) = with(itemView) {
             tv_counter_title.text = counter.title
             tv_counter_type.text = counter.type
             tv_counter_value.text = counter.value.toString()

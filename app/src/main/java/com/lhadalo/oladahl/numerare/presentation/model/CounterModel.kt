@@ -1,19 +1,18 @@
 package com.lhadalo.oladahl.numerare.presentation.model
 
-import com.lhadalo.oladahl.numerare.data.Counter
-import io.reactivex.Completable
+import com.lhadalo.oladahl.numerare.data.CounterEntity
 import io.reactivex.Flowable
 
 interface CounterModel {
-    fun getAll() : Flowable<List<Counter>>
+    fun getAll() : Flowable<List<CounterEntity>>
 
-    fun get(id: Int) : Flowable<Counter>
+    fun get(id: Int) : Flowable<CounterEntity>
 
-    fun add(counter: Counter)
+    fun add(counter: CounterEntity)
 
-    fun update(counter: Counter)
+    fun update(counter: CounterEntity)
 
     fun updateCount(id: Int, newValue: Int)
 
-    fun delete(counter: Counter)
+    fun delete(counter: CounterEntity)
 }
