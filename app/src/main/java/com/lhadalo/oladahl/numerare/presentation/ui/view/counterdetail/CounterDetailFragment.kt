@@ -2,15 +2,12 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.counterdetail
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.databinding.FragmentCounterDetailBinding
-import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.ui.activity.NavigationDelegate
 import com.lhadalo.oladahl.numerare.util.extensions.getAppInjector
 import com.lhadalo.oladahl.numerare.util.helpers.withViewModel
@@ -38,9 +35,13 @@ class CounterDetailFragment : Fragment() {
 
         getAppInjector().inject(this)
 
+        val view = inflater.inflate(R.layout.fragment_counter_detail, container, false)
+
+
         val binding: FragmentCounterDetailBinding? = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_counter_detail, container, false
         )
+
 
         viewModel = withViewModel(factory) {
             counterId = arguments?.getInt(COUNTER_ITEM)
@@ -60,7 +61,9 @@ class CounterDetailFragment : Fragment() {
 
         btn_plus.setOnClickListener { viewModel.onClickPlus() }
         btn_minus.setOnClickListener { viewModel.onClickMinus() }
-        btn_edit.setOnClickListener { viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) } }
+
+        btn_image_cancel.setOnClickListener { navigator.popBackStack() }
+        btn_image_edit.setOnClickListener { viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) } }
     }
 
     override fun onAttach(context: Context?) {

@@ -21,21 +21,21 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
     var title: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR._all)
+            notifyPropertyChanged(BR.viewmodel)
         }
 
 
     var typeDesc: String = "Count"
         set(value) {
             field = value
-            notifyPropertyChanged(BR._all)
+            notifyPropertyChanged(BR.viewmodel)
         }
 
 
     var counterValue: Int = 0
         set(value) {
             field = value
-            notifyPropertyChanged(BR._all)
+            notifyPropertyChanged(BR.viewmodel)
         }
 
 

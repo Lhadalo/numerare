@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lhadalo.oladahl.numerare.R
@@ -14,7 +13,6 @@ import com.lhadalo.oladahl.numerare.presentation.ui.activity.NavigationDelegate
 import com.lhadalo.oladahl.numerare.util.extensions.getAppInjector
 import com.lhadalo.oladahl.numerare.util.helpers.withViewModel
 import kotlinx.android.synthetic.main.fragment_add_counter.*
-import kotlinx.android.synthetic.main.fragment_add_counter.view.*
 import javax.inject.Inject
 
 class AddCounterFragment : Fragment() {
@@ -69,7 +67,7 @@ class AddCounterFragment : Fragment() {
     private fun attachUI() {
         btn_add_counter.setOnClickListener { onClickAddCounter() }
         btn_add_reminder.setOnClickListener { addReminderDialog.show() }
-        btn_image_cancel.setOnClickListener { navigator.navigateToCounterListFragment() }
+        btn_image_cancel.setOnClickListener { navigator.popBackStack() }
 
         btn_layout_more_options.setOnClickListener { onClickShowMore() }
         switch_enable_auto.setOnCheckedChangeListener { _, isChecked -> onCheckAutoSwitch(isChecked) }
@@ -115,7 +113,7 @@ class AddCounterFragment : Fragment() {
             else viewModel.addCounter(title, "Count")
         }
 
-        navigator.navigateToCounterListFragment()
+        navigator.popBackStack()
     }
 
 }
