@@ -1,5 +1,6 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class AddCounterViewModel @Inject constructor(private val model: CounterModel, private val mapper: CounterMapper) : ViewModel() {
     var counterItem = CounterItem()
-    val liveCounter = MutableLiveData<CounterItem>()
+
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -31,7 +32,11 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
     }
 
     fun deleteCounter() {
-
+        compositeDisposable.add(
+                Completable.fromAction { model.delete(mapper.mapToEnitity(counterItem)) }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+        )
     }
 
     override fun onCleared() {

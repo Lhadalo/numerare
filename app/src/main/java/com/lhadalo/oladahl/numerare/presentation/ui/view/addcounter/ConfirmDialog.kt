@@ -5,11 +5,11 @@ import android.content.Context
 
 class ConfirmDialog(val context: Context?) {
 
-    fun confirmDelete(callback: () -> Unit) {
+    fun confirmDelete(onConfirm: () -> Unit) {
         AlertDialog.Builder(context)
                 .setTitle("Delete")
                 .setMessage("Are you sure?")
-                .setPositiveButton("OK") { _, _ -> callback() }
+                .setPositiveButton("OK") { _, _ -> onConfirm() }
                 .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
                 .show()
     }

@@ -47,7 +47,7 @@ class CounterDetailViewModel @Inject constructor(private val model: CounterModel
     fun onClickMinus() {
         val newValue = counter.value?.counterValue?.minus(1)
         if (newValue != null) {
-            if (newValue > 0) updateValue(newValue)
+            if (newValue >= 0) updateValue(newValue)
         }
     }
 

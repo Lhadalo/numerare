@@ -64,8 +64,7 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
         }
 
         override fun newArray(size: Int): Array<CounterItem?> {
-            return arrayOfNulls<CounterItem>(size)
-
+            return arrayOfNulls(size)
         }
     }
 }
@@ -86,6 +85,7 @@ class CounterMapper @Inject constructor() {
     fun mapToEnitity(counterItem: CounterItem) : CounterEntity = CounterEntity(
             counterItem.title,
             counterItem.typeDesc,
-            counterItem.counterValue
+            counterItem.counterValue,
+            counterItem.id
     )
 }

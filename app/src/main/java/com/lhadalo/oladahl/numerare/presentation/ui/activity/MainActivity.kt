@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.animation.DecelerateInterpolator
+import androidx.fragment.app.FragmentManager
 import androidx.transition.Slide
 import androidx.transition.Transition
 import com.lhadalo.oladahl.numerare.R
@@ -17,6 +18,8 @@ interface NavigationDelegate {
     fun navigateToAddCounterFragment(counterItem: CounterItem?)
 
     fun popBackStack()
+
+    fun navigateToCounterListFragment()
 
     fun navigateToCounterDetailsFragment(id: Int)
 }
@@ -67,8 +70,12 @@ class MainActivity : AppCompatActivity(), NavigationDelegate {
 
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, newFragment)
-                .addToBackStack(null)
+                .addToBackStack(COUNTER_LIST_FRAGMENT_TAG)
                 .commit()
+    }
+
+    override fun navigateToCounterListFragment() {
+        supportFragmentManager.popBackStack(COUNTER_LIST_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     private fun getSlideTransition() : Transition {

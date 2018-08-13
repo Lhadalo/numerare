@@ -2,6 +2,7 @@ package com.lhadalo.oladahl.numerare.presentation.ui.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.data.CounterEntity

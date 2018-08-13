@@ -81,7 +81,12 @@ class AddCounterFragment : Fragment() {
             et_counter_type.setText(viewModel.counterItem.typeDesc)
 
             btn_image_delete.visibility = View.VISIBLE
-            btn_image_delete.setOnClickListener { onClickDelete() }
+            btn_image_delete.setOnClickListener {
+                ConfirmDialog(context).confirmDelete {
+                    viewModel.deleteCounter()
+                    navigator.navigateToCounterListFragment()
+                }
+            }
         }
     }
 
@@ -98,10 +103,6 @@ class AddCounterFragment : Fragment() {
     private fun onClickShowMore() {
         layout_more_options.visibility = if (moreShown) View.GONE else View.VISIBLE
         moreShown = !moreShown
-    }
-
-    private fun onClickDelete() {
-        ConfirmDialog(context).confirmDelete(viewModel::deleteCounter)
     }
 
     private fun onClickAddCounter() {
