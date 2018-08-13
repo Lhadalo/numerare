@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.databinding.FragmentCounterDetailBinding
+import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.ui.activity.NavigationDelegate
 import com.lhadalo.oladahl.numerare.util.extensions.getAppInjector
 import com.lhadalo.oladahl.numerare.util.helpers.withViewModel
@@ -19,20 +20,18 @@ import javax.inject.Inject
 class CounterDetailFragment : Fragment() {
 
     companion object {
-        private const val COUNTER_ID = "counter_id"
+        private const val COUNTER_ITEM = "counter_item"
 
         fun newInstance(id: Int): CounterDetailFragment {
             return CounterDetailFragment().apply {
-                arguments = Bundle().apply { putInt(COUNTER_ID, id) }
+                arguments = Bundle().apply { putInt(COUNTER_ITEM, id) }
             }
         }
     }
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-
     private lateinit var navigator: NavigationDelegate
-
     private lateinit var viewModel: CounterDetailViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,12 +43,14 @@ class CounterDetailFragment : Fragment() {
         )
 
         viewModel = withViewModel(factory) {
-            counterId = arguments?.getInt(COUNTER_ID, 0)
+            counterId = arguments?.getInt(COUNTER_ITEM)
+
             binding?.let {
                 it.viewmodel = this
                 it.setLifecycleOwner(this@CounterDetailFragment)
             }
         }
+
 
         return binding?.root
     }
@@ -59,6 +60,7 @@ class CounterDetailFragment : Fragment() {
 
         btn_plus.setOnClickListener { viewModel.onClickPlus() }
         btn_minus.setOnClickListener { viewModel.onClickMinus() }
+        btn_edit.setOnClickListener { viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) } }
     }
 
     override fun onAttach(context: Context?) {

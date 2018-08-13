@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/raleway_bold"
-                android:text="@{String.valueOf(safeUnbox((Integer)viewmodel.counter.value))}"
+                android:text="@{String.valueOf(safeUnbox((Integer)viewmodel.counter.counterValue))}"
                 android:textColor="@color/white"
                 android:textSize="38sp"
                 app:layout_constraintEnd_toEndOf="@+id/tv_counter_type"
@@ -84,7 +84,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/raleway_medium"
-                android:text="@{viewmodel.counter.type}"
+                android:text="@{viewmodel.counter.typeDesc}"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +104,7 @@
                 app:srcCompat="@drawable/ic_clear_24dp"/>
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/btn_edit"
                 style="@android:style/Widget.Material.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -3,33 +3,89 @@ package com.lhadalo.oladahl.numerare.presentation.model
 import androidx.databinding.ObservableField
 import com.lhadalo.oladahl.numerare.data.CounterEntity
 
+import android.os.Parcel
+import android.os.Parcelable
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.library.baseAdapters.BR
+import java.util.*
 import javax.inject.Inject
 
-class ObservableCounter {
-    val title = ObservableField<String>()
-    val type = ObservableField<String>()
-    val value = ObservableField<Int>()
+
+
+
+class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
+
+
+    @get:Bindable
+    var title: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR._all)
+        }
+
+
+    var typeDesc: String = "Count"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR._all)
+        }
+
+
+    var counterValue: Int = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR._all)
+        }
+
+
+    constructor(pIn: Parcel) : this(pIn.readInt()) {
+        title = pIn.readString()
+        typeDesc = pIn.readString()
+        counterValue = pIn.readInt()
+    }
+
+
+    override fun describeContents(): Int {
+
+        return 0
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeInt(id)
+        dest.writeString(title)
+        dest.writeString(typeDesc)
+        dest.writeInt(counterValue)
+    }
+
+    companion object CREATOR : Parcelable.Creator<CounterItem> {
+        override fun createFromParcel(pIn: Parcel): CounterItem {
+            return CounterItem(pIn)
+        }
+
+        override fun newArray(size: Int): Array<CounterItem?> {
+            return arrayOfNulls<CounterItem>(size)
+
+        }
+    }
 }
 
-data class CounterItem(
-        var title: String = "",
-        var typeDesc: String = "",
-        val counterValue: Int = 0
-)
+class CounterMapper @Inject constructor() {
 
-class CounterMapper @Inject constructor(private val observableCounter: ObservableCounter) {
-    fun mapToPresentation(counter: CounterEntity): ObservableCounter {
-        observableCounter.title.set(counter.title)
-        observableCounter.type.set(counter.type)
-        observableCounter.value.set(counter.value)
+    fun mapToItem(entity: CounterEntity) : CounterItem {
+        val item = CounterItem(entity.id)
+        item.title = entity.title
+        item.typeDesc = entity.type
+        item.counterValue = entity.value
 
-        return observableCounter
+        return item
     }
+
+    fun mapToItem(counterList: List<CounterEntity>) = counterList.map { mapToItem(it) }
 
     fun mapToEnitity(counterItem: CounterItem) : CounterEntity = CounterEntity(
             counterItem.title,
             counterItem.typeDesc,
             counterItem.counterValue
     )
-
 }

@@ -54,12 +54,10 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless"
+                android:visibility="invisible"
                 android:src="@drawable/ic_delete_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -88,7 +86,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="Name (Number beer this week)"
+                android:hint="Name"
                 android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/separator_01"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +131,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="What (Beer)"
+                android:hint="What"
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@id/separator_02"
                 app:layout_constraintEnd_toEndOf="parent"

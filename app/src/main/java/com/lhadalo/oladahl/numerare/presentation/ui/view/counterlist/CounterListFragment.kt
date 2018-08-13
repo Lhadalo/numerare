@@ -64,7 +64,7 @@ class CounterListFragment : Fragment() {
         counters_recyclerview.adapter = adapter
 
         //FAB
-        add_counter_fab.setOnClickListener { navigator.navigateToAddCounterFragment() }
+        add_counter_fab.setOnClickListener { navigator.navigateToAddCounterFragment(null) }
     }
 
 }
