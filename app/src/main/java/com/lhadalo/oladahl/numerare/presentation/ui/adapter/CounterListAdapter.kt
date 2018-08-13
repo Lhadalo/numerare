@@ -1,14 +1,15 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.adapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lhadalo.oladahl.numerare.R
-import com.lhadalo.oladahl.numerare.data.CounterEntity
+import com.lhadalo.oladahl.numerare.databinding.ListItemCountersBinding
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
+import com.lhadalo.oladahl.numerare.util.extensions.bind
 import com.lhadalo.oladahl.numerare.util.extensions.inflate
-import kotlinx.android.synthetic.main.list_item_counters.view.*
 import kotlinx.android.synthetic.main.list_item_header.view.*
 
 class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -23,7 +24,7 @@ class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Ada
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_HEADER -> HeaderViewHolder(parent.inflate(R.layout.list_item_header))
-            TYPE_ITEM -> CounterViewHolder(parent.inflate(R.layout.list_item_counters))
+            TYPE_ITEM -> CounterViewHolder(parent.bind(R.layout.list_item_counters) as ListItemCountersBinding)
             else -> throw Exception()
         }
     }
@@ -33,7 +34,8 @@ class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Ada
             holder.bind()
         }
         else if (holder is CounterViewHolder) {
-            holder.bind(counters[position-1], callback)
+            holder.binding.counter = counters[position-1]
+            holder.binding.root.setOnClickListener { callback(counters[position-1].id) }
         }
     }
 
@@ -53,13 +55,5 @@ class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Ada
         }
     }
 
-    class CounterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(counter: CounterItem, callback: (Int) -> Unit) = with(itemView) {
-            tv_counter_title.text = counter.title
-            tv_counter_type.text = counter.typeDesc
-            tv_counter_value.text = counter.counterValue.toString()
-
-            setOnClickListener { callback(counter.id) }
-        }
-    }
+    class CounterViewHolder(val binding: ListItemCountersBinding) : RecyclerView.ViewHolder(binding.root)
 }

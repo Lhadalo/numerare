@@ -1,6 +1,5 @@
 package com.lhadalo.oladahl.numerare.presentation.model
 
-import androidx.databinding.ObservableField
 import com.lhadalo.oladahl.numerare.data.CounterEntity
 
 import android.os.Parcel
@@ -8,11 +7,7 @@ import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import java.util.*
 import javax.inject.Inject
-
-
-
 
 class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
 
@@ -21,21 +16,21 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
     var title: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.viewmodel)
+            notifyPropertyChanged(BR._all)
         }
 
-
+    @get:Bindable
     var typeDesc: String = "Count"
         set(value) {
             field = value
-            notifyPropertyChanged(BR.viewmodel)
+            notifyPropertyChanged(BR._all)
         }
 
-
+    @get:Bindable
     var counterValue: Int = 0
         set(value) {
             field = value
-            notifyPropertyChanged(BR.viewmodel)
+            notifyPropertyChanged(BR._all)
         }
 
 
@@ -46,10 +41,8 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
     }
 
 
-    override fun describeContents(): Int {
+    override fun describeContents() = 0
 
-        return 0
-    }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeInt(id)
@@ -71,7 +64,7 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
 
 class CounterMapper @Inject constructor() {
 
-    fun mapToItem(entity: CounterEntity) : CounterItem {
+    fun mapToPresentation(entity: CounterEntity) : CounterItem {
         val item = CounterItem(entity.id)
         item.title = entity.title
         item.typeDesc = entity.type
@@ -80,7 +73,7 @@ class CounterMapper @Inject constructor() {
         return item
     }
 
-    fun mapToItem(counterList: List<CounterEntity>) = counterList.map { mapToItem(it) }
+    fun mapToPresentation(counterList: List<CounterEntity>) = counterList.map { mapToPresentation(it) }
 
     fun mapToEnitity(counterItem: CounterItem) : CounterEntity = CounterEntity(
             counterItem.title,

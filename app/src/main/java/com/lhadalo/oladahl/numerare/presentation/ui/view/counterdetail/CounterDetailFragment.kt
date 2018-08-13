@@ -3,12 +3,12 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.counterdetail
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.databinding.FragmentCounterDetailBinding
 import com.lhadalo.oladahl.numerare.presentation.ui.activity.NavigationDelegate
+import com.lhadalo.oladahl.numerare.util.extensions.bind
 import com.lhadalo.oladahl.numerare.util.extensions.getAppInjector
 import com.lhadalo.oladahl.numerare.util.helpers.withViewModel
 import kotlinx.android.synthetic.main.fragment_counter_detail.*
@@ -35,25 +35,18 @@ class CounterDetailFragment : Fragment() {
 
         getAppInjector().inject(this)
 
-        val view = inflater.inflate(R.layout.fragment_counter_detail, container, false)
-
-
-        val binding: FragmentCounterDetailBinding? = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_counter_detail, container, false
-        )
-
+        val binding = container?.bind(R.layout.fragment_counter_detail) as FragmentCounterDetailBinding
 
         viewModel = withViewModel(factory) {
             counterId = arguments?.getInt(COUNTER_ITEM)
 
-            binding?.let {
+            binding.let {
                 it.viewmodel = this
                 it.setLifecycleOwner(this@CounterDetailFragment)
             }
         }
 
-
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

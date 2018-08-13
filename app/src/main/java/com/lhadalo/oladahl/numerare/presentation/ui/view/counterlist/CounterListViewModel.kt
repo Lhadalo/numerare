@@ -2,7 +2,6 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.counterlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lhadalo.oladahl.numerare.data.CounterEntity
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterMapper
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
@@ -25,7 +24,7 @@ class CounterListViewModel @Inject constructor(private val model: CounterModel, 
         compositeDisposable.add(model.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { mapper.mapToItem(it) }
+                .map { mapper.mapToPresentation(it) }
                 .subscribe {
                     counters.postValue(it)
                 })

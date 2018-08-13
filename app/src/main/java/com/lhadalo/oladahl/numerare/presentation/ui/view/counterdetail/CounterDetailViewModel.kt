@@ -31,7 +31,7 @@ class CounterDetailViewModel @Inject constructor(private val model: CounterModel
         _compositeDisposable.add(model.get(id)
                 .observeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .map { mapper.mapToItem(it) }
+                .map { mapper.mapToPresentation(it) }
                 .subscribe {
                     counter.postValue(it)
                 })
