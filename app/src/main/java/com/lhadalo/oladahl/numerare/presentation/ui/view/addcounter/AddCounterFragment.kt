@@ -11,9 +11,8 @@ import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.databinding.FragmentAddUpdateCounterBinding
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.ui.activity.NavigationDelegate
-import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterViewModel.Companion.SUCCESS
 import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterViewModel.Companion.ERROR
-import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterViewModel.Companion.UPDATE_DELETE_SUCCESS
+import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterViewModel.Companion.SUCCESS
 import com.lhadalo.oladahl.numerare.util.extensions.bind
 import com.lhadalo.oladahl.numerare.util.extensions.getAppInjector
 import com.lhadalo.oladahl.numerare.util.extensions.observe
@@ -24,6 +23,7 @@ import javax.inject.Inject
 class AddCounterFragment : Fragment() {
 
     companion object {
+        const val TAG = "AddCounterFragment"
         const val COUNTER_ITEM = "counter_item"
         fun newInstance() = AddCounterFragment()
         fun newInstance(counter: CounterItem?) = AddCounterFragment().apply {

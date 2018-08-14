@@ -57,6 +57,8 @@ class CounterDetailFragment : Fragment() {
 
         btn_image_cancel.setOnClickListener { navigator.popBackStack() }
         btn_image_edit.setOnClickListener { viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) } }
+
+        btn_image_restore.setOnClickListener { viewModel.restoreValue() }
     }
 
     override fun onAttach(context: Context?) {

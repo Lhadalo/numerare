@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.numerare.data
+package com.lhadalo.oladahl.numerare.data.counter
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

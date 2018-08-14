@@ -1,5 +1,8 @@
 package com.lhadalo.oladahl.numerare.data
 
+import com.lhadalo.oladahl.numerare.data.counter.CounterDao
+import com.lhadalo.oladahl.numerare.data.counter.CounterEntity
+import com.lhadalo.oladahl.numerare.data.reset.ResetEntity
 import com.lhadalo.oladahl.numerare.domain.CounterRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -17,4 +20,10 @@ class RoomCounterRepository @Inject constructor(val dao: CounterDao) : CounterRe
     override fun delete(counter: CounterEntity) = dao.delete(counter)
 
     override fun updateCount(id: Int, newValue: Int) = dao.updateCount(id, newValue)
+
+    override fun addResetItem(resetEntity: ResetEntity) = dao.insert(resetEntity)
+
+    override fun updateResetItem(resetEntity: ResetEntity) = dao.update(resetEntity)
+
+    override fun getCounterResetItems(id: Int): Flowable<List<ResetEntity>> = dao.getResetEntitiesFrom(id)
 }

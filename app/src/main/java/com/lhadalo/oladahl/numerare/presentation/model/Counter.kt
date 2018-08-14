@@ -1,6 +1,6 @@
 package com.lhadalo.oladahl.numerare.presentation.model
 
-import com.lhadalo.oladahl.numerare.data.CounterEntity
+import com.lhadalo.oladahl.numerare.data.counter.CounterEntity
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -62,23 +62,4 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
     }
 }
 
-class CounterMapper @Inject constructor() {
 
-    fun mapToPresentation(entity: CounterEntity) : CounterItem {
-        val item = CounterItem(entity.id)
-        item.title = entity.title
-        item.typeDesc = entity.type
-        item.counterValue = entity.value
-
-        return item
-    }
-
-    fun mapToPresentation(counterList: List<CounterEntity>) = counterList.map { mapToPresentation(it) }
-
-    fun mapToEnitity(counterItem: CounterItem) : CounterEntity = CounterEntity(
-            counterItem.title,
-            counterItem.typeDesc,
-            counterItem.counterValue,
-            counterItem.id
-    )
-}

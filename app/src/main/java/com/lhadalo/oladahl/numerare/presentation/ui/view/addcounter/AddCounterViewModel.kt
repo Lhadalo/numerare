@@ -3,17 +3,13 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
-import com.lhadalo.oladahl.numerare.presentation.model.CounterMapper
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AddCounterViewModel @Inject constructor(private val model: CounterModel, private val mapper: CounterMapper) : ViewModel() {
-    private val compositeDisposable = CompositeDisposable()
+class AddCounterViewModel @Inject constructor(private val model: CounterModel) : ViewModel() {
+    private val cDisposable = CompositeDisposable()
     private fun currentViewState(): ViewState? = state.value
 
     var counter = CounterItem()
@@ -22,8 +18,7 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
 
     companion object {
         const val SUCCESS = 1
-        const val UPDATE_DELETE_SUCCESS = 2
-        const val ERROR = 3
+        const val ERROR = 2
     }
 
     init {
@@ -34,40 +29,22 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
         if (title.isNotEmpty()) {
             counter.title = title
             if (typeDesc.isNotEmpty()) counter.typeDesc = typeDesc
-            compositeDisposable.add(Completable.fromAction { model.add(mapper.mapToEnitity(counter)) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        result.postValue(SUCCESS)
-                    }
-            )
+            cDisposable.add(model.add(counter).subscribe { result.postValue(SUCCESS) })
+
         } else {
             result.postValue(ERROR)
         }
     }
 
     fun deleteCounter() {
-        compositeDisposable.add(Completable.fromAction { model.delete(mapper.mapToEnitity(counter)) }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            result.postValue(SUCCESS)
-                        }
-        )
+        cDisposable.add(model.delete(counter).subscribe { result.postValue(SUCCESS)})
     }
 
     fun updateCounter(title: String, typeDesc: String) {
         if (title.isNotEmpty()) {
             counter.title = title
             if (typeDesc.isNotEmpty()) counter.typeDesc = typeDesc
-
-            compositeDisposable.add(Completable.fromAction { model.update(mapper.mapToEnitity(counter)) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        result.postValue(SUCCESS)
-                    }
-            )
+            cDisposable.add(model.update(counter).subscribe { result.postValue(SUCCESS) })
         } else {
             result.postValue(ERROR)
         }
@@ -101,13 +78,12 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
         }
     }
 
-    fun isEditMode() : Boolean {
+    fun isEditMode(): Boolean {
         return currentViewState()?.editMode ?: false
     }
 
-
     override fun onCleared() {
-        compositeDisposable.clear()
+        cDisposable.clear()
         super.onCleared()
     }
 
