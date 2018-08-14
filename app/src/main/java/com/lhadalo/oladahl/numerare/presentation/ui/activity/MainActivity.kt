@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationDelegate {
 
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, newFragment)
-                .addToBackStack(null)
+                .addToBackStack(COUNTER_LIST_FRAGMENT_TAG)
                 .commit()
     }
 
