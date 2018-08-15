@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class AddCounterViewModel @Inject constructor(private val model: CounterModel) : ViewModel() {
-    private val cDisposable = CompositeDisposable()
+    private val disposable = CompositeDisposable()
     private fun currentViewState(): ViewState? = state.value
 
     var counter = CounterItem()
@@ -29,7 +29,9 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel) :
         if (title.isNotEmpty()) {
             counter.title = title
             if (typeDesc.isNotEmpty()) counter.typeDesc = typeDesc
-            cDisposable.add(model.add(counter).subscribe { result.postValue(SUCCESS) })
+            disposable.add(model.add(counter).subscribe {
+                result.postValue(SUCCESS)
+            })
 
         } else {
             result.postValue(ERROR)
@@ -37,14 +39,18 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel) :
     }
 
     fun deleteCounter() {
-        cDisposable.add(model.delete(counter).subscribe { result.postValue(SUCCESS)})
+        disposable.add(model.delete(counter).subscribe {
+            result.postValue(SUCCESS)
+        })
     }
 
     fun updateCounter(title: String, typeDesc: String) {
         if (title.isNotEmpty()) {
             counter.title = title
             if (typeDesc.isNotEmpty()) counter.typeDesc = typeDesc
-            cDisposable.add(model.update(counter).subscribe { result.postValue(SUCCESS) })
+            disposable.add(model.update(counter).subscribe {
+                result.postValue(SUCCESS)
+            })
         } else {
             result.postValue(ERROR)
         }
@@ -78,12 +84,12 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel) :
         }
     }
 
-    fun isEditMode(): Boolean {
+    fun isInEditMode(): Boolean {
         return currentViewState()?.editMode ?: false
     }
 
     override fun onCleared() {
-        cDisposable.clear()
+        disposable.clear()
         super.onCleared()
     }
 

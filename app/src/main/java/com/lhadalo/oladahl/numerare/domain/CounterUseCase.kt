@@ -26,8 +26,8 @@ class CounterUseCase @Inject constructor(
                 .flatMap { counterId ->
                     Observable.fromCallable { repository.addResetItem(ResetEntity(counterId, OffsetDateTime.now())) }
                 }
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun update(counter: CounterItem) : Observable<Unit> {

@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="counter"
             type="com.lhadalo.oladahl.numerare.presentation.model.CounterItem"/>
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:clickable="true"
         android:theme="@style/Base.Theme.MaterialComponents.Light"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="KeyboardInaccessibleWidget">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -34,41 +38,40 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@color/text_input_box_stroke_color"
-                    tools:srcCompat="@color/colorAccent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@color/text_input_box_stroke_color"
+                    tools:srcCompat="@color/colorAccent"/>
 
                 <ImageView
                     android:id="@+id/btn_image_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
+                    android:background="?android:selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?android:selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_clear_white_24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <ImageView
                     android:id="@+id/btn_image_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
+                    android:background="?android:selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?android:selectableItemBackgroundBorderless"
-                    android:visibility="invisible"
                     android:src="@drawable/ic_delete_24dp"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,18 +86,18 @@
                     app:layout_constraintBottom_toTopOf="@+id/separator_01"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_counter_name"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:hint="Name"
                     android:gravity="center"
+                    android:hint="Name"
                     app:layout_constraintBottom_toTopOf="@+id/separator_01"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -104,10 +107,13 @@
                         android:id="@+id/et_counter_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{counter.title}"
                         android:background="@null"
                         android:fontFamily="@font/raleway_semibold"
+                        android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
                         android:paddingBottom="8dp"
+                        android:text="@{counter.title}"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,7 +125,7 @@
                     android:background="@color/separatorColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <!-- Item 2 -->
                 <ImageView
@@ -129,18 +135,19 @@
                     app:layout_constraintBottom_toBottomOf="@+id/separator_02"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/separator_01"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_counter_type"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:hint="What"
                     android:gravity="center"
+                    android:hint="What"
+
                     app:layout_constraintBottom_toBottomOf="@id/separator_02"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -150,11 +157,11 @@
                         android:id="@+id/et_counter_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{counter.typeDesc}"
                         android:background="@null"
                         android:fontFamily="@font/raleway_semibold"
-                        android:textSize="18sp"
-                        android:paddingBottom="8dp"/>
+                        android:paddingBottom="8dp"
+                        android:text="@{counter.typeDesc}"
+                        android:textSize="18sp"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,7 +173,7 @@
                     android:background="@color/separatorColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/separator_01" />
+                    app:layout_constraintTop_toBottomOf="@id/separator_01"/>
 
                 <!-- Item 3 -->
                 <ImageView
@@ -177,21 +184,21 @@
                     app:layout_constraintBottom_toTopOf="@+id/separator_03"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/separator_02"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <TextView
                     android:id="@+id/tv_reminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="Reminder"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/separator_03"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/separator_02" />
+                    app:layout_constraintTop_toBottomOf="@+id/separator_02"/>
 
 
                 <Button
@@ -199,14 +206,14 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="@font/raleway_medium"
                     android:text="Add reminder"
                     app:layout_constraintBottom_toTopOf="@+id/separator_03"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/separator_02" />
+                    app:layout_constraintTop_toBottomOf="@+id/separator_02"/>
 
                 <View
                     android:id="@+id/separator_03"
@@ -216,7 +223,7 @@
                     android:background="@color/separatorColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/separator_02" />
+                    app:layout_constraintTop_toBottomOf="@id/separator_02"/>
 
                 <!-- Item 4 -->
 
@@ -224,14 +231,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_switch_enable_reset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true"
-                android:background="?android:selectableItemBackground">
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -240,31 +246,31 @@
                     app:layout_constraintBottom_toTopOf="@+id/separator_001"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="Save and Reset"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@id/separator_001"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <Switch
                     android:id="@+id/switch_enable_reset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toTopOf="@+id/separator_001"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <View
                     android:id="@+id/separator_001"
@@ -274,18 +280,18 @@
                     android:background="@color/separatorColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/layout_reset"
-                android:background="@color/separatorColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="28dp"
+                android:background="@color/separatorColor"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:padding="28dp"
                 android:visibility="gone">
 
                 <TextView
@@ -293,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:fontFamily="@font/raleway_semibold"
-                    android:text="Save and reset counter every" />
+                    android:text="Save and reset counter every"/>
 
 
                 <Spinner
@@ -310,10 +316,10 @@
                 android:id="@+id/layout_switch_enable_auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true"
 
-                android:background="?android:selectableItemBackground">
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -322,31 +328,31 @@
                     app:layout_constraintBottom_toTopOf="@+id/separator_0001"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="Auto Counter"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@id/separator_0001"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <Switch
                     android:id="@+id/switch_enable_auto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toTopOf="@+id/separator_0001"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <View
                     android:id="@+id/separator_0001"
@@ -356,7 +362,7 @@
                     android:background="@color/separatorColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -366,9 +372,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/separatorColor"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
                 android:visibility="gone"
                 >
 
@@ -376,14 +382,13 @@
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="20dp"
                     android:entries="@array/spinner_auto"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent"/>
 
 
                 <TextView
@@ -395,15 +400,15 @@
                     android:fontFamily="@font/raleway_semibold"
                     android:text="Increase the counter automatically"
                     app:layout_constraintStart_toStartOf="@+id/spinner"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinner"/>
 
                 <LinearLayout
                     android:id="@+id/layout_auto_increase"
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
-                    android:gravity="center"
-                    android:layout_marginStart="28dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginStart="28dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
@@ -417,30 +422,30 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_weight="0.5">
+                        android:layout_weight="0.5"
+                        android:gravity="center">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_increase_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:selectAllOnFocus="true"
-                            android:paddingBottom="8dp"
                             android:background="@null"
                             android:fontFamily="@font/raleway_bold"
                             android:inputType="numberSigned"
+                            android:paddingBottom="8dp"
+                            android:selectAllOnFocus="true"
                             android:text="1"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/tv_increase_every_GroupIncrement"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:fontFamily="@font/raleway_semibold"
                         android:gravity="center"
-                        android:layout_weight="1"
-                        android:text="every" />
+                        android:text="every"/>
 
                     <Spinner
                         android:id="@+id/spinner_increase_every_GroupIncrease"
@@ -450,15 +455,15 @@
                         android:layout_weight="1"
 
                         android:entries="@array/spinner_dates"
-                        android:visibility="visible" />
+                        android:visibility="visible"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_auto_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:padding="20dp">
+                    android:padding="20dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_pick_date_GroupDate"
@@ -466,7 +471,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingLeft="8dp"
-                        android:text="Count down to" />
+                        android:text="Count down to"/>
 
                     <Button
                         android:id="@+id/btn_pick_date_GroupDate"
@@ -474,7 +479,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:text="Pick date" />
+                        android:text="Pick date"/>
 
                 </LinearLayout>
 
@@ -496,26 +501,26 @@
                     android:background="@color/separatorColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <!-- Item 2 -->
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginStart="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/separator_11"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     android:gravity="center"
                     app:layout_constraintBottom_toTopOf="@+id/separator_11"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -537,20 +542,20 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginStart="20dp"
                     app:layout_constraintBottom_toTopOf="@+id/separator_12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/separator_11"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     android:gravity="center"
                     app:layout_constraintBottom_toTopOf="@+id/separator_12"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -575,7 +580,7 @@
                     android:background="@color/separatorColor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/separator_11" />
+                    app:layout_constraintTop_toBottomOf="@id/separator_11"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -594,21 +599,21 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_mode_edit_24dp" />
+                    app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="More..."
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -617,11 +622,11 @@
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
                 android:text='@{counter != null ? "Update Counter" : "Add Counter"}'
-                app:cornerRadius="30dp" />
+                app:cornerRadius="30dp"/>
         </LinearLayout>
     </ScrollView>
 </layout>

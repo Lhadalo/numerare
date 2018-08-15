@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lhadalo.oladahl.numerare.R
@@ -72,8 +73,14 @@ class AddCounterFragment : Fragment() {
         }
     }
 
+
+
     private fun attachUI() {
-        if (viewModel.isEditMode()) {
+
+        et_counter_name.setOnFocusChangeListener { view, b ->
+            et_counter_type.setText(et_counter_name.text.toString().substringBefore(' '))
+        }
+        if (viewModel.isInEditMode()) {
             btn_image_delete.visibility = View.VISIBLE
             btn_image_delete.setOnClickListener {
                 ConfirmDialog(context).confirmDelete(viewModel::deleteCounter)
@@ -81,7 +88,7 @@ class AddCounterFragment : Fragment() {
         }
 
         btn_add_update_counter.apply {
-            if (viewModel.isEditMode()) setOnClickListener { viewModel.updateCounter(getTitle(), getTypeDesc()) }
+            if (viewModel.isInEditMode()) setOnClickListener { viewModel.updateCounter(getTitle(), getTypeDesc()) }
             else setOnClickListener { viewModel.addCounter(getTitle(), getTypeDesc()) }
         }
 
@@ -98,6 +105,21 @@ class AddCounterFragment : Fragment() {
         layout_switch_enable_reset.setOnClickListener { viewModel.checkLayoutReset() }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (!viewModel.isInEditMode()) {
+            val inputManager: InputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+            et_counter_name.apply {
+                postDelayed({
+                    requestFocus()
+                    inputManager.showSoftInput(et_counter_name, InputMethodManager.SHOW_IMPLICIT)
+                }, 500)
+            }
+        }
+    }
+
     private fun onResult(result: Int) {
         when (result) {
             SUCCESS -> navigator.navigateToCounterListFragment()
@@ -108,7 +130,6 @@ class AddCounterFragment : Fragment() {
     private fun render(state: ViewState) {
         switch_enable_reset.isChecked = state.resetSwitchChecked
         layout_reset.visibility = if (state.resetSwitchChecked) View.VISIBLE else View.GONE
-
 
         switch_enable_auto.isChecked = state.autoSwitchChecked
         layout_auto_counter.visibility = if (state.autoSwitchChecked) View.VISIBLE else View.GONE
