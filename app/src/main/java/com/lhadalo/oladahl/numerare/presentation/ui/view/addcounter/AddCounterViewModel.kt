@@ -6,6 +6,7 @@ import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
 import io.reactivex.disposables.CompositeDisposable
+import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 
 class AddCounterViewModel @Inject constructor(private val model: CounterModel) : ViewModel() {
@@ -27,8 +28,10 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel) :
 
     fun addCounter(title: String, typeDesc: String) {
         if (title.isNotEmpty()) {
+            if (typeDesc.isNotEmpty()) {
+                counter.typeDesc = typeDesc
+            }
             counter.title = title
-            if (typeDesc.isNotEmpty()) counter.typeDesc = typeDesc
             disposable.add(model.add(counter).subscribe {
                 result.postValue(SUCCESS)
             })

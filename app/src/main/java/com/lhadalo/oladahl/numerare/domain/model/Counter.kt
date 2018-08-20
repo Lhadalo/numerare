@@ -7,7 +7,7 @@ import javax.inject.Inject
 class CounterMapper @Inject constructor() {
 
     fun mapToPresentation(entity: CounterEntity) : CounterItem {
-        val item = CounterItem(entity.id)
+        val item = CounterItem(entity.id, entity.creationDate)
         item.title = entity.title
         item.typeDesc = entity.type
         item.counterValue = entity.value
@@ -21,6 +21,7 @@ class CounterMapper @Inject constructor() {
             counterItem.title,
             counterItem.typeDesc,
             counterItem.counterValue,
+            counterItem.creationDate,
             counterItem.id
     )
 }

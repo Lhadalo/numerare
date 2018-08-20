@@ -3,6 +3,7 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.counterdetail
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lhadalo.oladahl.numerare.R
@@ -19,9 +20,9 @@ class CounterDetailFragment : Fragment() {
     companion object {
         private const val COUNTER_ITEM = "counter_item"
 
-        fun newInstance(id: Int): CounterDetailFragment {
+        fun newInstance(counterId: Long): CounterDetailFragment {
             return CounterDetailFragment().apply {
-                arguments = Bundle().apply { putInt(COUNTER_ITEM, id) }
+                arguments = Bundle().apply { putLong(COUNTER_ITEM, counterId) }
             }
         }
     }
@@ -31,6 +32,11 @@ class CounterDetailFragment : Fragment() {
     private lateinit var navigator: NavigationDelegate
     private lateinit var viewModel: CounterDetailViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         getAppInjector().inject(this)
@@ -38,7 +44,7 @@ class CounterDetailFragment : Fragment() {
         val binding = container?.bind(R.layout.fragment_counter_detail) as FragmentCounterDetailBinding
 
         viewModel = withViewModel(factory) {
-            counterId = arguments?.getInt(COUNTER_ITEM)
+            counterId = arguments?.getLong(COUNTER_ITEM)
 
             binding.let {
                 it.viewmodel = this
@@ -55,11 +61,34 @@ class CounterDetailFragment : Fragment() {
         btn_plus.setOnClickListener { viewModel.onClickPlus() }
         btn_minus.setOnClickListener { viewModel.onClickMinus() }
 
-        btn_image_cancel.setOnClickListener { navigator.popBackStack() }
-        btn_image_edit.setOnClickListener { viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) } }
+        val appCompatActivity = activity as AppCompatActivity
+        val toolbar = appCompatActivity.setSupportActionBar(detail_toolbar)
+        appCompatActivity.supportActionBar?.title = ""
 
-        btn_image_restore.setOnClickListener { viewModel.restoreValue() }
+        btn_show_history.setOnClickListener { _ ->
+            viewModel.counter.value?.let {
+                navigator.navigateToHistory(it.id, it.counterValue)
+            }
+        }
+//        btn_image_cancel.setOnClickListener { navigator.popBackStack() }
+//        btn_image_edit.setOnClickListener { viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) } }
+//
+//        btn_image_restore.setOnClickListener { viewModel.restoreValue() }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_counter_detail, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> navigator.popBackStack()
+            R.id.action_edit -> viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

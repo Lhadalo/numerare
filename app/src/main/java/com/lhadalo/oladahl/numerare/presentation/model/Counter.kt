@@ -1,15 +1,14 @@
 package com.lhadalo.oladahl.numerare.presentation.model
 
-import com.lhadalo.oladahl.numerare.data.counter.CounterEntity
-
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import javax.inject.Inject
+import com.lhadalo.oladahl.numerare.data.reset.DateTimeConverter
+import org.threeten.bp.OffsetDateTime
 
-class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
+class CounterItem(var id: Long = 0, var creationDate: OffsetDateTime? = null) : BaseObservable(), Parcelable {
 
 
     @get:Bindable
@@ -34,7 +33,7 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
         }
 
 
-    constructor(pIn: Parcel) : this(pIn.readInt()) {
+    constructor(pIn: Parcel) : this(pIn.readLong(), DateTimeConverter.toOffsetDateTime(pIn.readString())) {
         title = pIn.readString()
         typeDesc = pIn.readString()
         counterValue = pIn.readInt()
@@ -45,10 +44,11 @@ class CounterItem(var id: Int = 0) : BaseObservable(), Parcelable {
 
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeInt(id)
+        dest.writeLong(id)
         dest.writeString(title)
         dest.writeString(typeDesc)
         dest.writeInt(counterValue)
+        dest.writeString(DateTimeConverter.fromOffsetDateTime(creationDate))
     }
 
     companion object CREATOR : Parcelable.Creator<CounterItem> {

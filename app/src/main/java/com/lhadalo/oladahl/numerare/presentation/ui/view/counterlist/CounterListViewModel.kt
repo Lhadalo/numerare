@@ -7,7 +7,7 @@ import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class CounterListViewModel @Inject constructor(private val model: CounterModel): ViewModel() {
+class CounterListViewModel @Inject constructor(private val model: CounterModel) : ViewModel() {
     val counters = MutableLiveData<List<CounterItem>>()
 
     private val compositeDisposable = CompositeDisposable()
@@ -22,6 +22,23 @@ class CounterListViewModel @Inject constructor(private val model: CounterModel):
         })
     }
 
+    fun onSwipeRight(idAndValue: Pair<Long, Int>) {
+        val (id, value) = idAndValue
+        updateValue(id, value.plus(1))
+    }
+
+    fun onSwipeLeft(idAndValue: Pair<Long, Int>) {
+        val (id, value) = idAndValue
+        updateValue(id, value.minus(1))
+    }
+
+    private fun updateValue(id: Long, value: Int) {
+        if (value >= 0) {
+            model.updateCount(id, value)
+        }
+    }
+
+    //4322
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()

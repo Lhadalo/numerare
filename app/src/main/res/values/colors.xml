@@ -3,6 +3,7 @@
     <color name="colorPrimary">#5d1049</color>
     <color name="colorPrimaryDark">@color/black</color>
     <color name="colorAccent">#4a148c</color>
+    <color name="colorPrimaryLight">#500e3f</color>
     <color name="fabColor">@color/white</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>

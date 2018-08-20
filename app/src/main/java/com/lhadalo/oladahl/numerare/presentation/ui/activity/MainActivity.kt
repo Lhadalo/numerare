@@ -11,6 +11,7 @@ import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterFragment
 import com.lhadalo.oladahl.numerare.presentation.ui.view.counterdetail.CounterDetailFragment
+import com.lhadalo.oladahl.numerare.presentation.ui.view.counterhistory.CounterHistoryFragment
 import com.lhadalo.oladahl.numerare.presentation.ui.view.counterlist.CounterListFragment
 
 interface NavigationDelegate {
@@ -21,7 +22,9 @@ interface NavigationDelegate {
 
     fun navigateToCounterListFragment()
 
-    fun navigateToCounterDetailsFragment(id: Int)
+    fun navigateToCounterDetailsFragment(counterId: Long)
+
+    fun navigateToHistory(counterId: Long, counterValue: Int)
 }
 
 class MainActivity : AppCompatActivity(), NavigationDelegate {
@@ -63,14 +66,25 @@ class MainActivity : AppCompatActivity(), NavigationDelegate {
         supportFragmentManager.popBackStack()
     }
 
-    override fun navigateToCounterDetailsFragment(id: Int) {
-        val newFragment = CounterDetailFragment.newInstance(id)
+    override fun navigateToCounterDetailsFragment(counterId: Long) {
+        val newFragment = CounterDetailFragment.newInstance(counterId)
 
         newFragment.enterTransition = getSlideTransition()
 
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, newFragment)
                 .addToBackStack(COUNTER_LIST_FRAGMENT_TAG)
+                .commit()
+    }
+
+    override fun navigateToHistory(counterId: Long, counterValue: Int) {
+        val newFragment = CounterHistoryFragment.newInstance(counterId, counterValue)
+
+        newFragment.enterTransition = getSlideTransition()
+
+        supportFragmentManager.beginTransaction()
+                .add(R.id.container, newFragment)
+                .addToBackStack(null)
                 .commit()
     }
 

@@ -9,6 +9,7 @@ data class ResetItem(
         val counterId: Long,
         val initDate: OffsetDateTime?,
         val restoreDate: OffsetDateTime? = null,
+        val counterValue: Int,
         val id: Long = 0
 )
 

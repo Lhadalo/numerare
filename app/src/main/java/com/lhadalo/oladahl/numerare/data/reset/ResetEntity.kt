@@ -10,5 +10,6 @@ data class ResetEntity(
         @ColumnInfo(name = "counter_id") val counterId: Long,
         @ColumnInfo(name = "init_date") val initDate: OffsetDateTime? = null,
         @ColumnInfo(name = "restore_date") val restoreDate: OffsetDateTime? = null,
+        @ColumnInfo(name = "counter_value") val counterValue: Int,
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0
 )

@@ -12,7 +12,7 @@ import com.lhadalo.oladahl.numerare.util.extensions.bind
 import com.lhadalo.oladahl.numerare.util.extensions.inflate
 import kotlinx.android.synthetic.main.list_item_header.view.*
 
-class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CounterListAdapter(private val callback: (Long) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val counters = ArrayList<CounterItem>()
 
@@ -39,6 +39,10 @@ class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Ada
         }
     }
 
+    fun getIdAndValue(position: Int): Pair<Long, Int> {
+        return counters[position-1].let { it.id to it.counterValue }
+    }
+
     override fun getItemCount() = counters.size + 1
 
     override fun getItemViewType(pos: Int) = if (pos == 0) TYPE_HEADER else TYPE_ITEM
@@ -55,5 +59,9 @@ class CounterListAdapter(private val callback: (Int) -> Unit) : RecyclerView.Ada
         }
     }
 
-    class CounterViewHolder(val binding: ListItemCountersBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+    class CounterViewHolder(val binding: ListItemCountersBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    }
 }
