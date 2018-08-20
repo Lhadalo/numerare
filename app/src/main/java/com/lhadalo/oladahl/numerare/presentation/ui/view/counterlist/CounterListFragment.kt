@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -60,25 +61,21 @@ class CounterListFragment : Fragment() {
         }
     }
 
-    fun attachUI() {
+    private fun attachUI() {
         //RecyclerView
         counters_recyclerview.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         counters_recyclerview.adapter = adapter
 
-
-
-
-        val touchHelper = ItemTouchHelper(SwipeHandler { action, pos ->
-            when(action) {
-
-                SwipeHandler.LEFT_ACTION -> viewModel.onSwipeLeft(adapter.getIdAndValue(pos))
-                SwipeHandler.RIGHT_ACTION -> viewModel.onSwipeRight(adapter.getIdAndValue(pos))
-            }
-        })
-        touchHelper.attachToRecyclerView(counters_recyclerview)
-
-
+        context?.let {
+            val touchHelper = ItemTouchHelper(SwipeHandler(it) { action, pos ->
+                when (action) {
+                    SwipeHandler.LEFT_ACTION -> viewModel.onSwipeLeft(adapter.getIdAndValue(pos))
+                    SwipeHandler.RIGHT_ACTION -> viewModel.onSwipeRight(adapter.getIdAndValue(pos))
+                }
+            })
+            touchHelper.attachToRecyclerView(counters_recyclerview)
+        }
 
         //FAB
         add_counter_fab.setOnClickListener { navigator.navigateToAddCounterFragment(null) }

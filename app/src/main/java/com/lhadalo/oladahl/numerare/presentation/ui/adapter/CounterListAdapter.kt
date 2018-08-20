@@ -62,6 +62,5 @@ class CounterListAdapter(private val callback: (Long) -> Unit) : RecyclerView.Ad
 
 
     class CounterViewHolder(val binding: ListItemCountersBinding) : RecyclerView.ViewHolder(binding.root) {
-
     }
 }
