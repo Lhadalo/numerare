@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Numerare</string>
+    <string name="reminder_channel_name">Reminders</string>
+    <string name="reminder_channel_description">Reminder channel description</string>
 
     <array name="spinner_dates">
         <item>day</item>

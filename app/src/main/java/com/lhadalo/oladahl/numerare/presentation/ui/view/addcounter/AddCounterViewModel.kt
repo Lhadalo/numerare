@@ -1,15 +1,19 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 
+import android.content.Context
+import android.util.Log
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
+import com.lhadalo.oladahl.numerare.util.AlarmReceiver
+import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
 import io.reactivex.disposables.CompositeDisposable
-import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 
-class AddCounterViewModel @Inject constructor(private val model: CounterModel) : ViewModel() {
+class AddCounterViewModel @Inject constructor(private val model: CounterModel, private val context: Context) : ViewModel() {
     private val disposable = CompositeDisposable()
     private fun currentViewState(): ViewState? = state.value
 
@@ -18,6 +22,7 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel) :
     val result = MutableLiveData<Int>()
 
     companion object {
+        const val TAG = "AddCounterViewModelTAG"
         const val SUCCESS = 1
         const val ERROR = 2
     }
@@ -83,12 +88,12 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel) :
 
     fun setIsEditMode() {
         currentViewState()?.let {
-            state.value = it.copy(editMode = true)
+            state.value = it.copy(inEditMode = true)
         }
     }
 
     fun isInEditMode(): Boolean {
-        return currentViewState()?.editMode ?: false
+        return currentViewState()?.inEditMode ?: false
     }
 
     override fun onCleared() {

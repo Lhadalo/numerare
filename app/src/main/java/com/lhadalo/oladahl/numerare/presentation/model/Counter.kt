@@ -10,7 +10,6 @@ import org.threeten.bp.OffsetDateTime
 
 class CounterItem(var id: Long = 0, var creationDate: OffsetDateTime? = null) : BaseObservable(), Parcelable {
 
-
     @get:Bindable
     var title: String = ""
         set(value) {
@@ -31,6 +30,9 @@ class CounterItem(var id: Long = 0, var creationDate: OffsetDateTime? = null) : 
             field = value
             notifyPropertyChanged(BR._all)
         }
+
+    var reminderItem: ReminderItem? = null
+
 
 
     constructor(pIn: Parcel) : this(pIn.readLong(), DateTimeConverter.toOffsetDateTime(pIn.readString())) {

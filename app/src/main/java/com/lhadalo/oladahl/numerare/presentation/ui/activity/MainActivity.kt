@@ -1,9 +1,10 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.animation.DecelerateInterpolator
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.transition.Slide
 import androidx.transition.Transition
@@ -13,6 +14,7 @@ import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterFr
 import com.lhadalo.oladahl.numerare.presentation.ui.view.counterdetail.CounterDetailFragment
 import com.lhadalo.oladahl.numerare.presentation.ui.view.counterhistory.CounterHistoryFragment
 import com.lhadalo.oladahl.numerare.presentation.ui.view.counterlist.CounterListFragment
+import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
 
 interface NavigationDelegate {
 
@@ -30,12 +32,21 @@ interface NavigationDelegate {
 class MainActivity : AppCompatActivity(), NavigationDelegate {
 
     companion object {
+        private const val TAG = "MainActivityTAG"
         private const val MOVE_DEFAULT_TIME: Long = 500
         private const val COUNTER_LIST_FRAGMENT_TAG = "counter_list_fragment_tag"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setup()
+
+        val counterId = intent.getLongExtra(NotificationHelper.COUNTER_ID, -1)
+        if (counterId > -1) {
+            Log.d(TAG, "Launch counter detail")
+        } else {
+            Log.d(TAG, "Proceed as usual")
+        }
 
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
@@ -43,6 +54,10 @@ class MainActivity : AppCompatActivity(), NavigationDelegate {
                     .replace(R.id.container, CounterListFragment.newInstance())
                     .commitNow()
         }
+    }
+
+    private fun setup() {
+        NotificationHelper.setupNotificationChannels(this)
     }
 
     //TODO Göra en snyggare lösning än att kolla efter null
@@ -100,4 +115,6 @@ class MainActivity : AppCompatActivity(), NavigationDelegate {
 
         return slideTransition
     }
+
+
 }
