@@ -9,7 +9,7 @@ import io.reactivex.Single
 interface CounterDao {
 
     @Insert
-    fun insert(counter: CounterEntity)
+    fun insert(counter: CounterEntity): Long
 
     @Query("SELECT * FROM counter_table ORDER BY id ASC")
     fun getAll(): Flowable<List<CounterEntity>>

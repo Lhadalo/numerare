@@ -11,7 +11,7 @@ interface CounterRepository {
 
     fun get(id: Long): Flowable<CounterEntity>
 
-    fun add(counter: CounterEntity)
+    fun add(counter: CounterEntity): Long
 
     fun update(counter: CounterEntity)
 

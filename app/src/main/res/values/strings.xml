@@ -3,6 +3,8 @@
     <string name="reminder_channel_name">Reminders</string>
     <string name="reminder_channel_description">Reminder channel description</string>
 
+    <string name="reminder_notification_content">Want to update %s now?</string>
+
     <array name="spinner_dates">
         <item>day</item>
         <item>week</item>

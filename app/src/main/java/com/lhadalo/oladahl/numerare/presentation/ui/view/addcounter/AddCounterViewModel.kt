@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lhadalo.oladahl.numerare.data.reset.DateTimeConverter
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
@@ -65,7 +66,7 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
     }
 
     fun onAddReminder(reminderItem: ReminderItem) {
-
+        counter.reminderItem = reminderItem
     }
 
     fun checkLayoutMore() {

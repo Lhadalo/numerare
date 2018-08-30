@@ -1,12 +1,17 @@
 package com.lhadalo.oladahl.numerare.domain
 
+import android.content.Context
+import android.util.Log
 import com.lhadalo.oladahl.numerare.data.counter.CounterEntity
 import com.lhadalo.oladahl.numerare.data.reset.ResetEntity
 import com.lhadalo.oladahl.numerare.domain.model.CounterMapper
 import com.lhadalo.oladahl.numerare.domain.model.ResetMapper
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
+import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
 import com.lhadalo.oladahl.numerare.presentation.model.ResetItem
+import com.lhadalo.oladahl.numerare.util.AlarmReceiver
+import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -20,6 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 class CounterUseCase @Inject constructor(
+        private val context: Context,
         private val repository: CounterRepository,
         private val resetMapper: ResetMapper,
         private val counterMapper: CounterMapper
@@ -29,12 +35,31 @@ class CounterUseCase @Inject constructor(
         const val TAG = "CounterUseCase"
     }
 
+    //TODO Få id från databas, lägg till alarm för reminder, ifall satt
     override fun add(counter: CounterItem): Observable<Unit> {
         return Observable.fromCallable {
             counter.creationDate = OffsetDateTime.now(ZoneId.systemDefault())
-            repository.add(counterMapper.mapToEntity(counter)) }
+            repository.add(counterMapper.mapToEntity(counter))
+        }
+                .flatMap { id ->
+                    Observable.fromCallable { addReminder(counter, id) }
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun addReminder(counter: CounterItem, counterId: Long) {
+        counter.reminderItem?.let { item ->
+            if (!item.reminderSet) {
+                NotificationHelper.createAlarm(context,
+                        AlarmReceiver::class.java,
+                        counterId,
+                        item,
+                        counter.title)
+                //counter.reminderItem = item.copy(reminderSet = true)
+                //update(counter)
+            }
+        }
     }
 
     override fun update(counter: CounterItem): Observable<Unit> {
