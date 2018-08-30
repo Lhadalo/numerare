@@ -1,17 +1,18 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 
 import android.content.Context
-import android.util.Log
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lhadalo.oladahl.numerare.data.reset.DateTimeConverter
+import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
-import com.lhadalo.oladahl.numerare.util.AlarmReceiver
-import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
+import com.lhadalo.oladahl.numerare.util.helpers.DAY
+import com.lhadalo.oladahl.numerare.util.helpers.MONTH
+import com.lhadalo.oladahl.numerare.util.helpers.WEEK
 import io.reactivex.disposables.CompositeDisposable
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 import javax.inject.Inject
 
 class AddCounterViewModel @Inject constructor(private val model: CounterModel, private val context: Context) : ViewModel() {
@@ -67,6 +68,23 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
 
     fun onAddReminder(reminderItem: ReminderItem) {
         counter.reminderItem = reminderItem
+
+        currentViewState()?.let {
+            state.value = it.copy(
+                    hasReminder = true,
+                    reminderText = formatReminderText(reminderItem)
+            )
+        }
+    }
+
+    fun clearReminder() {
+        counter.reminderItem = null
+        currentViewState()?.let {
+            state.value = it.copy(
+                    hasReminder = false,
+                    reminderText = context.getString(R.string.title_reminder)
+            )
+        }
     }
 
     fun checkLayoutMore() {
@@ -97,10 +115,37 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
         return currentViewState()?.inEditMode ?: false
     }
 
+    fun hasReminder(): Boolean {
+        return currentViewState()?.hasReminder ?: false
+    }
+
     override fun onCleared() {
         disposable.clear()
         super.onCleared()
     }
 
+    private fun formatReminderText(reminderItem: ReminderItem): String {
+        val stringBuilder = StringBuilder()
+        val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
+        reminderItem.time?.let {
+            stringBuilder.append(it.format(timeFormatter))
+                    .append(' ')
+                    .append(context.resources.getText(R.string.title_reminder_every))
+                    .append(' ')
+                    .append(getRepeatingDateString(reminderItem.repeatingDate))
+        }
+
+
+        return stringBuilder.toString()
+    }
+
+    private fun getRepeatingDateString(dateType: Int): CharSequence {
+        return when (dateType) {
+            DAY -> context.resources.getText(R.string.title_reminder_day)
+            WEEK -> context.resources.getText(R.string.title_reminder_week)
+            MONTH -> context.resources.getText(R.string.title_reminder_month)
+            else -> "Error"
+        }
+    }
 }

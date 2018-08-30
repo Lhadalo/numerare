@@ -96,7 +96,7 @@
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:hint="Name"
+                    android:hint="@string/tv_hint_name"
                     app:layout_constraintBottom_toTopOf="@+id/separator_01"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +145,6 @@
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/raleway_semibold"
-                    android:text="Reminder"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/separator_03"
                     app:layout_constraintStart_toStartOf="parent"
@@ -161,7 +160,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/raleway_medium"
-                    android:text="Add reminder"
                     app:layout_constraintBottom_toTopOf="@+id/separator_03"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/separator_01"/>
@@ -206,7 +204,7 @@
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/raleway_semibold"
-                    android:text="Save and Reset"
+                    android:text="@string/switch_layout_reset_title"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@id/separator_001"
                     app:layout_constraintStart_toStartOf="parent"
@@ -250,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:fontFamily="@font/raleway_semibold"
-                    android:text="Save and reset counter every"/>
+                    android:text="@string/layout_reset_description"/>
 
 
                 <Spinner
@@ -269,7 +267,6 @@
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
                 android:clickable="true"
-
                 android:focusable="true">
 
                 <ImageView
@@ -288,7 +285,7 @@
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/raleway_semibold"
-                    android:text="Auto Counter"
+                    android:text="@string/switch_layout_auto_title"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@id/separator_0001"
                     app:layout_constraintStart_toStartOf="parent"
@@ -349,7 +346,7 @@
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/raleway_semibold"
-                    android:text="Increase the counter automatically"
+                    android:text="@string/layout_auto_increase_description"
                     app:layout_constraintStart_toStartOf="@+id/spinner"
                     app:layout_constraintTop_toBottomOf="@+id/spinner"/>
 
@@ -367,7 +364,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/raleway_semibold"
-                        android:text="Increase by"
+                        android:text="@string/layout_auto_increase_"
                         />
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -396,7 +393,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/raleway_semibold"
                         android:gravity="center"
-                        android:text="every"/>
+                        android:text="@string/layout_auto_increase_every"/>
 
                     <Spinner
                         android:id="@+id/spinner_increase_every_GroupIncrease"
@@ -422,7 +419,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingLeft="8dp"
-                        android:text="Count down to"/>
+                        android:text="@string/layout_auto_date_description"/>
 
                     <Button
                         android:id="@+id/btn_pick_date_GroupDate"
@@ -430,7 +427,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:text="Pick date"/>
+                        android:text="@string/layout_auto_date_button"/>
 
                 </LinearLayout>
 
@@ -461,7 +458,7 @@
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:hint="What"
+                    android:hint="@string/tv_hint_what"
                     app:layout_constraintBottom_toBottomOf="@id/separator_00"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -520,7 +517,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:fontFamily="@font/raleway_semibold"
-                        android:hint="Max Value"
+                        android:hint="@string/tv_hint_max_value"
                         android:paddingBottom="8dp"
                         />
 
@@ -565,7 +562,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:fontFamily="@font/raleway_semibold"
-                        android:hint="Start Value"
+                        android:hint="@string/tv_hint_start_value"
                         android:paddingBottom="8dp"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -600,14 +597,13 @@
                     app:srcCompat="@drawable/ic_mode_edit_24dp"/>
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/layout_more_less_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/raleway_semibold"
-                    android:text="More..."
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -623,7 +619,6 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text='@{counter != null ? "Update Counter" : "Add Counter"}'
                 app:cornerRadius="30dp"/>
         </LinearLayout>
     </ScrollView>

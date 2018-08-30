@@ -47,7 +47,6 @@ class HistoryListAdapter : RecyclerView.Adapter<HistoryListAdapter.ViewHolder>()
                         DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
                     } else {
                         DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-
                     }
                     return String.format("%s–%s", init.format(f), restore.format(f))
                 }

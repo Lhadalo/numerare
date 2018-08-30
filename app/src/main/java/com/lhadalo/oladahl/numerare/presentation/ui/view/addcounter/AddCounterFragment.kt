@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lhadalo.oladahl.numerare.R
@@ -14,12 +15,10 @@ import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.ui.activity.NavigationDelegate
 import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterViewModel.Companion.ERROR
 import com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter.AddCounterViewModel.Companion.SUCCESS
-import com.lhadalo.oladahl.numerare.util.AlarmReceiver
 import com.lhadalo.oladahl.numerare.util.extensions.bind
 import com.lhadalo.oladahl.numerare.util.extensions.getAppInjector
 import com.lhadalo.oladahl.numerare.util.extensions.observe
 import com.lhadalo.oladahl.numerare.util.helpers.DialogHelper
-import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
 import com.lhadalo.oladahl.numerare.util.helpers.withViewModel
 import kotlinx.android.synthetic.main.fragment_add_update_counter.*
 import javax.inject.Inject
@@ -103,9 +102,9 @@ class AddCounterFragment : Fragment() {
             else setOnClickListener { viewModel.addCounter(getTitle(), getTypeDesc()) }
         }
 
-
         btn_add_reminder.setOnClickListener {
-            AddReminderDialog.show(this, viewModel::onAddReminder)
+            if (viewModel.hasReminder()) viewModel.clearReminder()
+            else AddReminderDialog.show(this, viewModel::onAddReminder)
         }
 
         btn_image_cancel.setOnClickListener { navigator.popBackStack() }
@@ -120,15 +119,40 @@ class AddCounterFragment : Fragment() {
     }
 
     private fun renderState(state: ViewState) {
+        //Reset state
         switch_enable_reset.isChecked = state.resetSwitchChecked
         layout_reset.visibility = if (state.resetSwitchChecked) View.VISIBLE else View.GONE
 
+        //Auto Counter state
         switch_enable_auto.isChecked = state.autoSwitchChecked
         layout_auto_counter.visibility = if (state.autoSwitchChecked) View.VISIBLE else View.GONE
 
-        layout_more_options.visibility = if (state.showMoreLayoutVisible) View.VISIBLE else View.GONE
-
+        //Delete button state
         btn_image_delete.visibility = if (state.inEditMode) View.VISIBLE else View.INVISIBLE
+
+        //Reminder State
+        tv_reminder.text = state.reminderText
+        if (state.hasReminder) {
+            tv_reminder.setTextColor(ResourcesCompat.getColor(resources, R.color.colorAccent, null))
+            btn_add_reminder.text = resources.getText(R.string.button_reminder_text_clear)
+        } else {
+            tv_reminder.setTextColor(layout_more_less_title.textColors)
+            btn_add_reminder.text = resources.getText(R.string.button_reminder_text_add)
+        }
+
+        //More visible state
+        layout_more_options.visibility = if (state.showMoreLayoutVisible) View.VISIBLE else View.GONE
+        if (state.showMoreLayoutVisible) {
+            layout_more_less_title.text = resources.getText(R.string.tv_less)
+        } else {
+            layout_more_less_title.text = resources.getText(R.string.tv_more)
+        }
+
+        //Button Add Update state
+        btn_add_update_counter.text =
+                if (state.inEditMode) resources.getText(R.string.title_button_update)
+                else resources.getText(R.string.title_button_add)
+
     }
 
     private fun onResult(result: Int) {

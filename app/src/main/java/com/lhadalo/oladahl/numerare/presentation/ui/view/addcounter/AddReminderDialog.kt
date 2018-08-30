@@ -2,7 +2,6 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 
 import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
@@ -18,12 +17,10 @@ import com.lhadalo.oladahl.numerare.util.helpers.MORNING
 import com.lhadalo.oladahl.numerare.util.helpers.NOON
 import kotlinx.android.synthetic.main.dialog_add_reminder.view.*
 import org.threeten.bp.LocalTime
-import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
-import java.text.SimpleDateFormat
 
 
 class AddReminderDialog(val fragment: Fragment, val callback: (ReminderItem) -> Unit) : TimePickerDialog.OnTimeSetListener {
@@ -48,7 +45,7 @@ class AddReminderDialog(val fragment: Fragment, val callback: (ReminderItem) -> 
 
     init {
         dialog = AlertDialog.Builder(fragment.context)
-                .setTitle("Add Reminder")
+                .setTitle(fragment.resources.getText(R.string.button_reminder_text_add))
                 .setView(getLayout())
                 .create()
     }

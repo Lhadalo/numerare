@@ -1,9 +1,69 @@
 <resources>
     <string name="app_name">Numerare</string>
+
+    <string name="dialog_positive_button">OK</string>
+    <string name="dialog_negative_button">Cancel</string>
+
+
+    <!-- region AddCounter -->
+    <string name="tv_hint_name">Name</string>
+
+    <!-- Reminder-->
     <string name="reminder_channel_name">Reminders</string>
     <string name="reminder_channel_description">Reminder channel description</string>
-
     <string name="reminder_notification_content">Want to update %s now?</string>
+    <string name="title_reminder">Reminder</string>
+    <string name="title_reminder_every"> every </string>
+    <string name="title_reminder_day">day</string>
+    <string name="title_reminder_week">week</string>
+    <string name="title_reminder_month">month</string>
+
+    <string name="button_reminder_text_add">Add Reminder</string>
+    <string name="button_reminder_text_clear">Clear Reminder</string>
+    <string name="dialog_reminder_date_description">Remind me every</string>
+    <string name="dialog_reminder_time_description">At</string>
+
+
+    <!-- Save & Reset-->
+    <string name="switch_layout_reset_title">Save and Reset</string>
+    <string name="layout_reset_description">Reset counter every</string>
+
+    <!-- Auto Counter-->
+    <string name="switch_layout_auto_title">Auto Counter</string>
+    <string name="layout_auto_increase_description">Increase the counter automatically</string>
+    <string name="layout_auto_increase_">Increase by</string>
+    <string name="layout_auto_increase_every">every</string>
+    <string name="layout_auto_date_description">Count down to a date</string>
+    <string name="layout_auto_date_button">Pick date</string>
+
+    <!-- More-->
+    <string name="tv_hint_what">What</string>
+    <string name="tv_hint_max_value">Max value</string>
+    <string name="tv_hint_start_value">Start value</string>
+    <string name="tv_more">More</string>
+    <string name="tv_less">Less</string>
+
+    <!-- Button Add Update -->
+    <string name="title_button_add">Add Counter</string>
+    <string name="title_button_update">Update Counter</string>
+
+    <!-- Delete Dialog -->
+    <string name="dialog_delete_title">Delete</string>
+    <string name="dialog_delete_message">Are you sure? The counter can not be restored.</string>
+
+    <!-- endregion -->
+
+    <!-- region CounterDetail -->
+    <string name="btn_show_history">History</string>
+    <string name="btn_plus">+</string>
+    <string name="btn_minus">-</string>
+    <!-- endregion -->
+
+    <!-- region CounterHistory -->
+    <string name="btn_save_reset">Save and Reset</string>
+    <string name="tv_total_count_title">Total all time</string>
+    <!-- endregion -->
+
 
     <array name="spinner_dates">
         <item>day</item>
