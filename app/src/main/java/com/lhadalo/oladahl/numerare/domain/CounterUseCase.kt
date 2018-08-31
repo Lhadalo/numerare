@@ -50,15 +50,11 @@ class CounterUseCase @Inject constructor(
 
     private fun addReminder(counter: CounterItem, counterId: Long) {
         counter.reminderItem?.let { item ->
-            if (!item.reminderSet) {
                 NotificationHelper.createAlarm(context,
                         AlarmReceiver::class.java,
                         counterId,
                         item,
                         counter.title)
-                //counter.reminderItem = item.copy(reminderSet = true)
-                //update(counter)
-            }
         }
     }
 

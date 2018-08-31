@@ -2,6 +2,7 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ class AddCounterFragment : Fragment() {
             if (counter != null) {
                 setIsEditMode()
                 this.counter = counter
+                mapToViewState(counter)
                 binding.counter = this.counter
             }
         }
@@ -79,7 +81,8 @@ class AddCounterFragment : Fragment() {
         super.onResume()
 
         if (!viewModel.isInEditMode()) {
-            val inputManager: InputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputManager: InputMethodManager =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
             et_counter_name.apply {
                 postDelayed({
@@ -98,8 +101,11 @@ class AddCounterFragment : Fragment() {
         }
 
         btn_add_update_counter.apply {
-            if (viewModel.isInEditMode()) setOnClickListener { viewModel.updateCounter(getTitle(), getTypeDesc()) }
-            else setOnClickListener { viewModel.addCounter(getTitle(), getTypeDesc()) }
+            if (viewModel.isInEditMode())
+                setOnClickListener { viewModel.updateCounter(getTitle(), getTypeDesc()) }
+            else
+                setOnClickListener { viewModel.addCounter(getTitle(), getTypeDesc()) }
+
         }
 
         btn_add_reminder.setOnClickListener {
@@ -109,7 +115,7 @@ class AddCounterFragment : Fragment() {
 
         btn_image_cancel.setOnClickListener { navigator.popBackStack() }
 
-        btn_layout_more_options.setOnClickListener { viewModel.checkLayoutMore() }
+        btn_layout_more_options.setOnClickListener { Log.d(TAG, viewModel.counter.toString()) }
 
         switch_enable_auto.setOnClickListener { viewModel.checkLayoutAuto() }
         layout_switch_enable_auto.setOnClickListener { viewModel.checkLayoutAuto() }

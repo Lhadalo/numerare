@@ -54,6 +54,17 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
         })
     }
 
+    fun mapToViewState(counter: CounterItem) {
+        counter.reminderItem?.let { item ->
+            currentViewState()?.let { current->
+                state.value = current.copy(
+                        hasReminder = true,
+                        reminderText = formatReminderText(item)
+                )
+            }
+        }
+    }
+
     fun updateCounter(title: String, typeDesc: String) {
         if (title.isNotEmpty()) {
             counter.title = title
@@ -78,7 +89,7 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
     }
 
     fun clearReminder() {
-        counter.reminderItem = null
+        counter.reminderItem = counter.reminderItem?.copy(setReminder = false)
         currentViewState()?.let {
             state.value = it.copy(
                     hasReminder = false,

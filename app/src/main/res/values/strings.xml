@@ -19,7 +19,7 @@
     <string name="title_reminder_month">month</string>
 
     <string name="button_reminder_text_add">Add Reminder</string>
-    <string name="button_reminder_text_clear">Clear Reminder</string>
+    <string name="button_reminder_text_clear">Clear</string>
     <string name="dialog_reminder_date_description">Remind me every</string>
     <string name="dialog_reminder_time_description">At</string>
 

@@ -13,7 +13,7 @@ import org.threeten.bp.OffsetTime
 data class ReminderItem(
         val repeatingDate: Int = 0,
         val time: OffsetTime?,
-        val reminderSet: Boolean = false
+        val setReminder: Boolean = true
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
@@ -24,7 +24,7 @@ data class ReminderItem(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(repeatingDate)
         parcel.writeString(DateTimeConverter.fromOffsetTime(time))
-        parcel.writeInt(if (reminderSet) 1 else 0)
+        parcel.writeInt(if (setReminder) 1 else 0)
     }
 
     override fun describeContents(): Int {

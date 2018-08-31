@@ -8,19 +8,17 @@ import javax.inject.Inject
 class CounterMapper @Inject constructor() {
 
     fun mapToPresentation(entity: CounterEntity): CounterItem {
-        //TODO Göra snyggare lösning, ganska fult
-        val reminderRepeatingDate: Int = entity.reminderRepeatingDate ?: 0
-        val reminderSet: Boolean = entity.reminderIsSet ?: false
-
-        val reminderItem = ReminderItem(reminderRepeatingDate, entity.reminderTime, reminderSet)
-
         return CounterItem(
                 entity.id,
                 entity.creationDate,
                 entity.title,
                 entity.type,
                 entity.value,
-                reminderItem
+                if (entity.reminderIsSet) ReminderItem(
+                        entity.reminderRepeatingDate,
+                        entity.reminderTime,
+                        entity.reminderIsSet)
+                else null
         )
     }
 
@@ -31,9 +29,9 @@ class CounterMapper @Inject constructor() {
             item.typeDesc,
             item.counterValue,
             item.creationDate,
-            item.reminderItem?.repeatingDate,
+            item.reminderItem?.repeatingDate ?: 0,
             item.reminderItem?.time,
-            item.reminderItem?.reminderSet,
+            item.reminderItem?.setReminder ?: false,
             item.id
     )
 }
