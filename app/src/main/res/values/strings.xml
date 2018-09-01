@@ -25,8 +25,8 @@
 
 
     <!-- Save & Reset-->
-    <string name="switch_layout_reset_title">Save and Reset</string>
-    <string name="layout_reset_description">Reset counter every</string>
+    <string name="switch_layout_reset_title">Save &amp; Reset</string>
+    <string name="layout_reset_description">Save &amp; reset counter every</string>
 
     <!-- Auto Counter-->
     <string name="switch_layout_auto_title">Auto Counter</string>
@@ -38,7 +38,7 @@
 
     <!-- More-->
     <string name="tv_hint_what">What</string>
-    <string name="tv_hint_max_value">Max value</string>
+    <string name="tv_hint_max_value">Warning value</string>
     <string name="tv_hint_start_value">Start value</string>
     <string name="tv_more">More</string>
     <string name="tv_less">Less</string>

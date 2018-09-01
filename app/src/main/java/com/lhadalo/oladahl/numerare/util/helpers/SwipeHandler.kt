@@ -122,7 +122,7 @@ class SwipeHandler(private val context: Context, private val callback: (action: 
 
     private fun setIconColor(drawable: Drawable, triggerAction: Boolean) {
         if (triggerAction) {
-            DrawableCompat.setTint(drawable, ContextCompat.getColor(context, R.color.green))
+            DrawableCompat.setTint(drawable, ContextCompat.getColor(context, R.color.icon_grey))
         } else {
             DrawableCompat.setTint(drawable, ContextCompat.getColor(context, R.color.white))
         }

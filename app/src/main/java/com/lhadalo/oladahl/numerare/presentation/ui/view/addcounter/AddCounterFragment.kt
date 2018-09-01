@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -102,10 +103,9 @@ class AddCounterFragment : Fragment() {
 
         btn_add_update_counter.apply {
             if (viewModel.isInEditMode())
-                setOnClickListener { viewModel.updateCounter(getTitle(), getTypeDesc()) }
+                setOnClickListener { viewModel.updateCounter(getTitle()) }
             else
-                setOnClickListener { viewModel.addCounter(getTitle(), getTypeDesc()) }
-
+                setOnClickListener { viewModel.addCounter(getTitle()) }
         }
 
         btn_add_reminder.setOnClickListener {
@@ -115,7 +115,7 @@ class AddCounterFragment : Fragment() {
 
         btn_image_cancel.setOnClickListener { navigator.popBackStack() }
 
-        btn_layout_more_options.setOnClickListener { Log.d(TAG, viewModel.counter.toString()) }
+        btn_layout_more_options.setOnClickListener { viewModel.checkLayoutMore() }
 
         switch_enable_auto.setOnClickListener { viewModel.checkLayoutAuto() }
         layout_switch_enable_auto.setOnClickListener { viewModel.checkLayoutAuto() }
@@ -150,8 +150,10 @@ class AddCounterFragment : Fragment() {
         layout_more_options.visibility = if (state.showMoreLayoutVisible) View.VISIBLE else View.GONE
         if (state.showMoreLayoutVisible) {
             layout_more_less_title.text = resources.getText(R.string.tv_less)
+            iv_btn_layout_more.setImageDrawable(context?.getDrawable(R.drawable.ic_outline_keyboard_arrow_up_24px))
         } else {
             layout_more_less_title.text = resources.getText(R.string.tv_more)
+            iv_btn_layout_more.setImageDrawable(context?.getDrawable(R.drawable.ic_outline_keyboard_arrow_down_24px))
         }
 
         //Button Add Update state
@@ -171,6 +173,6 @@ class AddCounterFragment : Fragment() {
 
     private fun getTitle() = et_counter_name.text.toString().trim()
 
-    private fun getTypeDesc() = et_counter_type.text.toString().trim()
+    //private fun getTypeDesc() = et_counter_type.text.toString().trim()
 }
 

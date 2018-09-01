@@ -33,11 +33,8 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
         state.value = ViewState()
     }
 
-    fun addCounter(title: String, typeDesc: String) {
+    fun addCounter(title: String) {
         if (title.isNotEmpty()) {
-            if (typeDesc.isNotEmpty()) {
-                counter.typeDesc = typeDesc
-            }
             counter.title = title
             disposable.add(model.add(counter).subscribe {
                 result.postValue(SUCCESS)
@@ -65,10 +62,9 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
         }
     }
 
-    fun updateCounter(title: String, typeDesc: String) {
+    fun updateCounter(title: String) {
         if (title.isNotEmpty()) {
             counter.title = title
-            if (typeDesc.isNotEmpty()) counter.typeDesc = typeDesc
             disposable.add(model.update(counter).subscribe {
                 result.postValue(SUCCESS)
             })

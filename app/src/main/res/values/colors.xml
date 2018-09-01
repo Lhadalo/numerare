@@ -9,5 +9,5 @@
     <color name="black">#000000</color>
     <color name="text_input_box_stroke_color">#9e9e9e</color>
     <color name="separatorColor">#1f000000</color>
-    <color name="green">#FF64DD17</color>
+    <color name="icon_grey">#1f000000</color>
 </resources>
