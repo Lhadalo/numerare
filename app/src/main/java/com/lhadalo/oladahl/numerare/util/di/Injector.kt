@@ -5,6 +5,7 @@ import com.lhadalo.oladahl.numerare.presentation.ui.view.counterdetail.CounterDe
 import com.lhadalo.oladahl.numerare.presentation.ui.view.counterhistory.CounterHistoryFragment
 import com.lhadalo.oladahl.numerare.util.di.modules.AppModule
 import com.lhadalo.oladahl.numerare.presentation.ui.view.counterlist.CounterListFragment
+import com.lhadalo.oladahl.numerare.util.AlarmReceiver
 import com.lhadalo.oladahl.numerare.util.di.modules.RepositoryModule
 import com.lhadalo.oladahl.numerare.util.di.modules.ViewModelModule
 import dagger.Component
@@ -17,4 +18,5 @@ interface Injector {
     fun inject(fragment: AddCounterFragment)
     fun inject(fragment: CounterDetailFragment)
     fun inject(fragment: CounterHistoryFragment)
+    fun inject(receiver: AlarmReceiver)
 }
