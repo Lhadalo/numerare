@@ -79,7 +79,6 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
 
     fun onAddReminder(reminderItem: ReminderItem) {
         counter.reminderItem = reminderItem
-
         currentViewState()?.let {
             state.value = it.copy(
                     hasReminder = true,
@@ -144,7 +143,7 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
                     .append(' ')
                     .append(context.resources.getText(R.string.title_reminder_every))
                     .append(' ')
-                    .append(getRepeatingDateString(reminderItem.repeatingDate))
+                    .append(getRepeatingDateString(reminderItem.interval))
         }
 
 

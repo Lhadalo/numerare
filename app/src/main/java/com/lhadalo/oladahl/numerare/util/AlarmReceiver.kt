@@ -6,28 +6,30 @@ import android.content.Intent
 import android.util.Log
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.data.reset.DateTimeConverter
-import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.ACTION_MINUS
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.ACTION_PLUS
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.ACTION_REMINDER_NOTIFICATION
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.COUNTER_ID
-import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.COUNTER_REMINDER_REPEATING_DAYS
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.COUNTER_REMINDER_TIME
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.COUNTER_TITLE
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
+import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.REMINDER_INTERVAL
+import org.threeten.bp.OffsetTime
 
 class AlarmReceiver : BroadcastReceiver() {
     val TAG = "AlarmReceiverTAG"
 
     override fun onReceive(context: Context?, intent: Intent) {
-        val title = intent.getStringExtra(COUNTER_TITLE) ?: "error"
-        val counterId = intent.getLongExtra(COUNTER_ID, 0)
 
         if (intent.action != null && context != null) {
-            when(intent.action) {
+            when (intent.action) {
                 ACTION_REMINDER_NOTIFICATION -> {
+
+                    val title = intent.getStringExtra(COUNTER_TITLE)
+                    val counterId = intent.getLongExtra(COUNTER_ID, -1)
+                    val reminderTime = DateTimeConverter.toOffsetTime(intent.getStringExtra(COUNTER_REMINDER_TIME))
+                    val interval = intent.getIntExtra(REMINDER_INTERVAL, -1)
+
                     NotificationHelper.showNotification(
                             context,
                             title,
@@ -35,9 +37,9 @@ class AlarmReceiver : BroadcastReceiver() {
                                     context.resources.getString(R.string.reminder_notification_content),
                                     title
                             ),
-                            counterId
+                            0
                     )
-                    scheduleNewAlarm(context, intent, counterId, title)
+                    scheduleNewAlarm(context, counterId, title, reminderTime, interval)
                 }
                 Intent.ACTION_BOOT_COMPLETED -> {
 
@@ -52,17 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun scheduleNewAlarm(context: Context, intent: Intent, counterId: Long, title: String) {
-        Completable.fromAction {
-            val reminderTime = DateTimeConverter.toOffsetTime(intent.getStringExtra(COUNTER_REMINDER_TIME))
-            val reminderRepeating = intent.getIntExtra(COUNTER_REMINDER_REPEATING_DAYS, 0)
-            NotificationHelper.createAlarm(
-                    context,
-                    AlarmReceiver::class.java,
-                    counterId,
-                    ReminderItem(reminderRepeating, reminderTime, true),
-                    title
-            )
-        }.subscribeOn(Schedulers.io()).subscribe()
+    private fun scheduleNewAlarm(context: Context, counterId: Long, title: String, reminderTime: OffsetTime?, interval: Int) {
+        NotificationHelper.createAlarm(context, counterId, title, interval, reminderTime)
     }
 }

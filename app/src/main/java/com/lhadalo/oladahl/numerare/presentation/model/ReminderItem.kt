@@ -7,11 +7,11 @@ import org.threeten.bp.OffsetTime
 
 /**
  * Class for information when reminders should be shown
- * @repeatingDate repeat every day, week, month, (year)
+ * @interval repeat every day, week, month, (year)
  * @time the time of day the reminder should be shown
  */
 data class ReminderItem(
-        val repeatingDate: Int = 0,
+        val interval: Int = 0,
         val time: OffsetTime?,
         val setReminder: Boolean = true
 ) : Parcelable {
@@ -22,7 +22,7 @@ data class ReminderItem(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(repeatingDate)
+        parcel.writeInt(interval)
         parcel.writeString(DateTimeConverter.fromOffsetTime(time))
         parcel.writeInt(if (setReminder) 1 else 0)
     }

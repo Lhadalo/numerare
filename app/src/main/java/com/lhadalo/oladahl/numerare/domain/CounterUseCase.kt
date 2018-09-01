@@ -8,7 +8,6 @@ import com.lhadalo.oladahl.numerare.domain.model.CounterMapper
 import com.lhadalo.oladahl.numerare.domain.model.ResetMapper
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
-import com.lhadalo.oladahl.numerare.presentation.model.ReminderItem
 import com.lhadalo.oladahl.numerare.presentation.model.ResetItem
 import com.lhadalo.oladahl.numerare.util.AlarmReceiver
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
@@ -21,7 +20,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
-import java.util.*
 import javax.inject.Inject
 
 class CounterUseCase @Inject constructor(
@@ -35,7 +33,6 @@ class CounterUseCase @Inject constructor(
         const val TAG = "CounterUseCase"
     }
 
-    //TODO Få id från databas, lägg till alarm för reminder, ifall satt
     override fun add(counter: CounterItem): Observable<Unit> {
         return Observable.fromCallable {
             counter.creationDate = OffsetDateTime.now(ZoneId.systemDefault())
@@ -48,17 +45,17 @@ class CounterUseCase @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun addReminder(counter: CounterItem, counterId: Long) {
-        counter.reminderItem?.let { item ->
-                NotificationHelper.createAlarm(context,
-                        AlarmReceiver::class.java,
-                        counterId,
-                        item,
-                        counter.title)
-        }
-    }
-
     override fun update(counter: CounterItem): Observable<Unit> {
+        counter.reminderItem?.let { reminderItem ->
+            if (reminderItem.setReminder) {
+                Log.d(TAG, "Update Reminder")
+                NotificationHelper.createAlarm(context, counter.id, counter.title, reminderItem.interval, reminderItem.time)
+            } else {
+                Log.d(TAG, "Cancel Reminder")
+                NotificationHelper.cancelAlarm(context, counter.id, counter.title, reminderItem.interval, reminderItem.time)
+            }
+        }
+
         return Observable.fromCallable { repository.update(counterMapper.mapToEntity(counter)) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -129,5 +126,12 @@ class CounterUseCase @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .map { resetMapper.mapToPresentation(it) }
+    }
+
+    private fun addReminder(counter: CounterItem, counterId: Long) {
+        counter.reminderItem?.let { reminderItem ->
+            Log.d(TAG, "Create Reminder")
+            NotificationHelper.createAlarm(context, counterId, counter.title, reminderItem.interval, reminderItem.time)
+        }
     }
 }

@@ -29,7 +29,7 @@ class CounterMapper @Inject constructor() {
             item.typeDesc,
             item.counterValue,
             item.creationDate,
-            item.reminderItem?.repeatingDate ?: 0,
+            item.reminderItem?.interval ?: 0,
             item.reminderItem?.time,
             item.reminderItem?.setReminder ?: false,
             item.id
