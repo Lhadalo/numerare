@@ -5,6 +5,8 @@ import com.lhadalo.oladahl.numerare.data.reset.ResetEntity
 import com.lhadalo.oladahl.numerare.presentation.model.ResetItem
 import io.reactivex.Flowable
 import io.reactivex.Single
+import org.threeten.bp.OffsetDateTime
+
 
 interface CounterRepository {
     fun getAll(): Flowable<List<CounterEntity>>
@@ -15,17 +17,23 @@ interface CounterRepository {
 
     fun update(counter: CounterEntity)
 
-    fun updateCount(id: Long, newValue: Int)
+    fun reset(id: Long)
+
+    fun increaseCounter(id: Long, increaseBy: Int)
+
+    fun decreaseCounter(id: Long, decreaseBy: Int)
 
     fun delete(counter: CounterEntity)
 
     fun addResetItem(resetEntity: ResetEntity)
 
-    fun updateResetItem(resetEntity: ResetEntity)
+    fun getResetEntities(id: Long): Flowable<List<ResetEntity>>
 
-    fun getCounterResetItems(id: Long): Flowable<List<ResetEntity>>
+    fun getLatestCreationDate(id: Long) : OffsetDateTime
 
-    fun getMostRecentResetItemWith(counterId: Long): ResetEntity
+    fun getLatestRestoreDate(id: Long) : OffsetDateTime
+
+    fun updateResetItem()
 
     fun getResetEntitySizeFor(counterId: Long): Int
 }

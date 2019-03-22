@@ -1,6 +1,7 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lhadalo.oladahl.numerare.R
@@ -36,10 +37,8 @@ class AddCounterViewModel @Inject constructor(private val model: CounterModel, p
     fun addCounter(title: String) {
         if (title.isNotEmpty()) {
             counter.title = title
-            disposable.add(model.add(counter).subscribe {
-                result.postValue(SUCCESS)
-            })
-
+            model.add(counter)
+            result.postValue(SUCCESS) //Faran är att den inte hinner lägga till
         } else {
             result.postValue(ERROR)
         }

@@ -1,9 +1,8 @@
 package com.lhadalo.oladahl.numerare.data.counter
 
 import androidx.room.*
-import com.lhadalo.oladahl.numerare.data.reset.ResetEntity
 import io.reactivex.Flowable
-import io.reactivex.Single
+import org.threeten.bp.OffsetDateTime
 
 @Dao
 interface CounterDao {
@@ -20,23 +19,20 @@ interface CounterDao {
     @Update
     fun update(counter: CounterEntity)
 
-    @Query("UPDATE counter_table SET value=:newValue where id=:id")
-    fun updateCount(id: Long, newValue: Int)
+    @Query("UPDATE counter_table SET value= value + :newValue where id=:id")
+    fun increaseCount(id: Long, newValue: Int)
+
+    @Query("UPDATE counter_table SET value= value - :newValue where id=:id")
+    fun decreaseCount(id: Long, newValue: Int)
+
+    @Query("UPDATE counter_table SET value = 0 WHERE id=:id")
+    fun reset(id: Long)
+
+    @Query("SELECT creation_date FROM counter_table WHERE id = (SELECT MAX(id) from counter_table WHERE id=:id)")
+    fun getLatestCreationDate(id: Long): OffsetDateTime
 
     @Delete
     fun delete(counter: CounterEntity)
-
-    @Insert
-    fun insert(resetEntity: ResetEntity)
-
-    @Update
-    fun update(resetEntity: ResetEntity)
-
-    @Query("SELECT * FROM reset_table WHERE counter_id=:counterId")
-    fun getResetEntitiesFrom(counterId: Long): Flowable<List<ResetEntity>>
-
-    @Query("SELECT * FROM reset_table WHERE id = (SELECT MAX(id) FROM reset_table WHERE counter_id=:counterId)")
-    fun getMostRecentResetEntityFrom(counterId: Long): ResetEntity
 
     @Query("SELECT count(*) FROM reset_table where counter_id=:counterId")
     fun getEntitySize(counterId: Long): Int

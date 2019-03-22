@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.presentation.ui.activity.NavigationDelegate
 import com.lhadalo.oladahl.numerare.presentation.ui.adapter.CounterListAdapter
@@ -44,8 +46,13 @@ class CounterListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(main_toolbar)
         viewModel = withViewModel(factory) {
-            observe(counters, counterAdapter::addCounters)
+            observe(counters) {
+                counters.value?.let {
+                    counterAdapter.items = it
+                }
+            }
         }
 
         attachUI()
@@ -62,15 +69,15 @@ class CounterListFragment : Fragment() {
     private fun attachUI() {
         //RecyclerView
         counters_recyclerview.apply {
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             adapter = counterAdapter
         }
 
         context?.let {
             val touchHelper = ItemTouchHelper(SwipeHandler(it) { action, pos ->
                 when (action) {
-                    SwipeHandler.LEFT_ACTION -> viewModel.onSwipeLeft(counterAdapter.getIdAndValue(pos))
-                    SwipeHandler.RIGHT_ACTION -> viewModel.onSwipeRight(counterAdapter.getIdAndValue(pos))
+                    SwipeHandler.LEFT_ACTION -> viewModel.onSwipeLeft(counterAdapter.getId(pos))
+                    SwipeHandler.RIGHT_ACTION -> viewModel.onSwipeRight(counterAdapter.getId(pos))
                 }
             })
             touchHelper.attachToRecyclerView(counters_recyclerview)

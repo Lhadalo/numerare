@@ -2,6 +2,8 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.counterlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lhadalo.oladahl.numerare.domain.CounterUseCase.Companion.DECREMENT
+import com.lhadalo.oladahl.numerare.domain.CounterUseCase.Companion.INCREMENT
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import io.reactivex.disposables.CompositeDisposable
@@ -22,23 +24,10 @@ class CounterListViewModel @Inject constructor(private val model: CounterModel) 
         })
     }
 
-    fun onSwipeRight(idAndValue: Pair<Long, Int>) {
-        val (id, value) = idAndValue
-        updateValue(id, value.plus(1))
-    }
+    fun onSwipeRight(id: Long) = model.updateCount(id, 1, INCREMENT)
 
-    fun onSwipeLeft(idAndValue: Pair<Long, Int>) {
-        val (id, value) = idAndValue
-        updateValue(id, value.minus(1))
-    }
+    fun onSwipeLeft(id: Long) = model.updateCount(id, 1, DECREMENT)
 
-    private fun updateValue(id: Long, value: Int) {
-        if (value >= 0) {
-            model.updateCount(id, value)
-        }
-    }
-
-    //4322
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()

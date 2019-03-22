@@ -24,4 +24,7 @@ class AppModule(private val context: Context) {
     @Provides
     @Singleton
     fun providesCounterDao(database: CounterDatabase) = database.counterDao()
+
+    @Provides
+    fun provdesResetDao(database: CounterDatabase) = database.resetDao()
 }

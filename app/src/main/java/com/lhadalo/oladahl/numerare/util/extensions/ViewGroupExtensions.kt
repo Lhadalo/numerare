@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.lhadalo.oladahl.numerare.R
-import com.lhadalo.oladahl.numerare.databinding.ListItemCountersBinding
+// import com.lhadalo.oladahl.numerare.databinding.ListItemCountersBinding
 
 fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)

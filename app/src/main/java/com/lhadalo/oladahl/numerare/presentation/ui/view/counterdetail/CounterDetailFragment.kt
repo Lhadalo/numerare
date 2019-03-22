@@ -61,19 +61,13 @@ class CounterDetailFragment : Fragment() {
         btn_plus.setOnClickListener { viewModel.onClickPlus() }
         btn_minus.setOnClickListener { viewModel.onClickMinus() }
 
-        val appCompatActivity = activity as AppCompatActivity
-        val toolbar = appCompatActivity.setSupportActionBar(detail_toolbar)
-        appCompatActivity.supportActionBar?.title = ""
+        (activity as AppCompatActivity).setSupportActionBar(detail_toolbar)
 
-        btn_show_history.setOnClickListener { _ ->
+        btn_show_history.setOnClickListener {
             viewModel.counter.value?.let {
                 navigator.navigateToHistory(it.id, it.counterValue)
             }
         }
-//        btn_image_cancel.setOnClickListener { navigator.popBackStack() }
-//        btn_image_edit.setOnClickListener { viewModel.counter.value?.let { navigator.navigateToAddCounterFragment(it) } }
-//
-//        btn_image_restore.setOnClickListener { viewModel.restoreValue() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

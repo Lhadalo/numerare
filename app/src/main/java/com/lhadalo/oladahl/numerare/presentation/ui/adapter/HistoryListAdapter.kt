@@ -1,5 +1,6 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.adapter
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class HistoryListAdapter : RecyclerView.Adapter<HistoryListAdapter.ViewHolder>()
     override fun getItemCount(): Int = historyList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("HistoryListAdapter", historyList[position].toString())
         holder.bind(historyList[position])
     }
 

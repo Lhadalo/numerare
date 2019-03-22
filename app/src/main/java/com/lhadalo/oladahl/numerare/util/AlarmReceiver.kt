@@ -1,6 +1,5 @@
 package com.lhadalo.oladahl.numerare.util
 
-import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,6 +7,8 @@ import android.util.Log
 import com.lhadalo.oladahl.numerare.App
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.data.reset.DateTimeConverter
+import com.lhadalo.oladahl.numerare.domain.CounterUseCase.Companion.DECREMENT
+import com.lhadalo.oladahl.numerare.domain.CounterUseCase.Companion.INCREMENT
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.ACTION_MINUS
@@ -17,25 +18,29 @@ import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.COUNTER_ID
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.COUNTER_REMINDER_TIME
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.COUNTER_TITLE
 import com.lhadalo.oladahl.numerare.util.helpers.NotificationHelper.REMINDER_INTERVAL
-import io.reactivex.Single
 import org.threeten.bp.OffsetTime
 import javax.inject.Inject
 
-class AlarmReceiver @Inject constructor(val model: CounterModel) : BroadcastReceiver() {
+class AlarmReceiver : BroadcastReceiver() {
     val TAG = "AlarmReceiverTAG"
+
+    @Inject
+    lateinit var model: CounterModel
 
     override fun onReceive(context: Context?, intent: Intent) {
 
+        val title = intent.getStringExtra(COUNTER_TITLE)
+        val counterId = intent.getLongExtra(COUNTER_ID, -1)
+        val reminderTime = DateTimeConverter.toOffsetTime(intent.getStringExtra(COUNTER_REMINDER_TIME))
+        val interval = intent.getIntExtra(REMINDER_INTERVAL, -1)
+
+
+        Log.d(TAG, counterId.toString())
         if (intent.action != null && context != null) {
-            (context as App).injector.inject(this)
+            (context.applicationContext as App).injector.inject(this)
+            //(context as App).injector.inject(this)
             when (intent.action) {
                 ACTION_REMINDER_NOTIFICATION -> {
-
-                    val title = intent.getStringExtra(COUNTER_TITLE)
-                    val counterId = intent.getLongExtra(COUNTER_ID, -1)
-                    val reminderTime = DateTimeConverter.toOffsetTime(intent.getStringExtra(COUNTER_REMINDER_TIME))
-                    val interval = intent.getIntExtra(REMINDER_INTERVAL, -1)
-
                     NotificationHelper.showNotification(
                             context,
                             title,
@@ -43,7 +48,7 @@ class AlarmReceiver @Inject constructor(val model: CounterModel) : BroadcastRece
                                     context.resources.getString(R.string.reminder_notification_content),
                                     title
                             ),
-                            0
+                            counterId
                     )
                     scheduleNewAlarm(context, counterId, title, reminderTime, interval)
                 }
@@ -52,17 +57,22 @@ class AlarmReceiver @Inject constructor(val model: CounterModel) : BroadcastRece
                 }
                 ACTION_MINUS -> {
                     Log.d(TAG, "Action Minus")
+                    val id = intent.getLongExtra(COUNTER_ID, 10)
+                    updateValue(id, 1, DECREMENT)
                 }
                 ACTION_PLUS -> {
-                    Log.d(TAG, "Action Plus")
 
+                    val id = intent.getLongExtra(COUNTER_ID, 10)
+                    Log.d(TAG, "Action Plus")
+                    updateValue(id, 1, INCREMENT)
                 }
             }
         }
     }
 
-    private fun updateValue(counterId: Long, newValue: Int) {
-        model.updateCount(counterId, newValue)
+    private fun updateValue(counterId: Long, newValue: Int, operationType: Int) {
+        Log.d(TAG, counterId.toString())
+        model.updateCount(counterId, newValue, operationType)
     }
 
     private fun scheduleNewAlarm(context: Context, counterId: Long, title: String, reminderTime: OffsetTime?, interval: Int) {

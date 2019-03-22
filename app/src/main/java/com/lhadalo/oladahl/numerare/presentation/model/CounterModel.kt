@@ -9,17 +9,15 @@ interface CounterModel {
 
     fun get(id: Long) : Flowable<CounterItem>
 
-    fun add(counter: CounterItem): Observable<Unit>
+    fun add(counter: CounterItem)
 
     fun update(counter: CounterItem): Observable<Unit>
 
-    fun updateCount(id: Long, newValue: Int)
+    fun updateCount(id: Long, newValue: Int, operationType: Int)
 
     fun delete(counter: CounterItem): Observable<Unit>
 
-    fun resetCounterWith(counterId: Long, counterValue: Int): Disposable
-
-    fun updateResetItem(item: ResetItem)
+    fun resetCounterWith(counterId: Long, counterValue: Int)
 
     fun getCounterResetItems(id: Long): Flowable<List<ResetItem>>
 }

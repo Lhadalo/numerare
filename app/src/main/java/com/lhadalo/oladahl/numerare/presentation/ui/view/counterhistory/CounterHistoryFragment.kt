@@ -2,6 +2,7 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.counterhistory
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
@@ -51,6 +52,7 @@ class CounterHistoryFragment : Fragment() {
         viewModel = withViewModel(factory) {
             counterId = arguments?.getLong(COUNTER_ID)
             counterValue = arguments?.getInt(COUNTER_VALUE)
+
             observe(history, historyAdapter::addItems)
             observe(totalCount, ::setTotalCount)
         }
@@ -73,7 +75,6 @@ class CounterHistoryFragment : Fragment() {
 
         btn_reset_counter.setOnClickListener { viewModel.resetCounter() }
     }
-
 
     private fun setTotalCount(totalCount: Int?) {
         tv_value_total.text = totalCount.toString()

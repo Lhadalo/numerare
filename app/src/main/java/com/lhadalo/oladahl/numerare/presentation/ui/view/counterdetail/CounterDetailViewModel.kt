@@ -2,6 +2,8 @@ package com.lhadalo.oladahl.numerare.presentation.ui.view.counterdetail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lhadalo.oladahl.numerare.domain.CounterUseCase.Companion.DECREMENT
+import com.lhadalo.oladahl.numerare.domain.CounterUseCase.Companion.INCREMENT
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
 import com.lhadalo.oladahl.numerare.presentation.model.CounterModel
 import io.reactivex.disposables.CompositeDisposable
@@ -34,24 +36,23 @@ class CounterDetailViewModel @Inject constructor(private val model: CounterModel
     }
 
     fun onClickPlus() {
-        val newValue = counter.value?.counterValue?.plus(1)
-        if (newValue != null)
-            updateValue(newValue)
+        //val newValue = counter.value?.counterValue?.plus(1)
+        updateValue(1, INCREMENT)
     }
 
 
     fun onClickMinus() {
         val newValue = counter.value?.counterValue?.minus(1)
         if (newValue != null) {
-            if (newValue >= 0) updateValue(newValue)
+            if (newValue >= 0) updateValue(1, DECREMENT)
         }
     }
 
 
     //TODO Förstå hur threading fungerar och om jag ska göra någonting här (unsubscribe)
-    private fun updateValue(newValue: Int) {
+    private fun updateValue(newValue: Int, operationType: Int) {
         counter.value?.let {
-            model.updateCount(it.id, newValue)
+            model.updateCount(it.id, newValue, operationType)
         }
     }
 

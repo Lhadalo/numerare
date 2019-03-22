@@ -29,10 +29,12 @@ class CounterHistoryViewModel @Inject constructor(private val model: CounterMode
 
     private fun getHistory(counterId: Long) {
         disposable.add(model.getCounterResetItems(counterId).subscribe {
+            for (item in it) Log.d(TAG, item.toString())
             history.postValue(it)
             val sum = it.sumBy { resetItem ->  resetItem.counterValue }
             totalCount.postValue(sum)
         })
+
     }
 
     fun resetCounter() {

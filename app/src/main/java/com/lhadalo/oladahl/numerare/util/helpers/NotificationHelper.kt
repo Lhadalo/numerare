@@ -140,6 +140,7 @@ object NotificationHelper {
         alarmManager.cancel(pendingIntent)
 
         pendingIntent.cancel()
+        Log.d(TAG, "Cancel Reminder")
     }
 
     private fun createIntent(context: Context, counterId: Long, title: String?, interval: Int, reminderTime: OffsetTime?): Intent {

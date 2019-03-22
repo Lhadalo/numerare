@@ -6,6 +6,9 @@ import android.view.Gravity
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction.*
+import androidx.transition.ChangeBounds
+import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
 import com.lhadalo.oladahl.numerare.R
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationDelegate {
     //TODO Göra en snyggare lösning än att kolla efter null
     override fun navigateToAddCounterFragment(counterItem: CounterItem?) {
 
+
         val newFragment = when (counterItem == null) {
             true -> AddCounterFragment.newInstance()
             else -> AddCounterFragment.newInstance(counterItem)
@@ -84,7 +88,17 @@ class MainActivity : AppCompatActivity(), NavigationDelegate {
     override fun navigateToCounterDetailsFragment(counterId: Long) {
         val newFragment = CounterDetailFragment.newInstance(counterId)
 
+        newFragment.allowEnterTransitionOverlap = false
+        newFragment.allowReturnTransitionOverlap = false
+
+
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (currentFragment != null) {
+
+        }
+
         newFragment.enterTransition = getSlideTransition()
+        newFragment.allowEnterTransitionOverlap = false
 
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, newFragment)

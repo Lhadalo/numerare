@@ -1,16 +1,23 @@
 package com.lhadalo.oladahl.numerare.presentation.ui.view.addcounter
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.appbar.AppBarLayout
 import com.lhadalo.oladahl.numerare.R
 import com.lhadalo.oladahl.numerare.databinding.FragmentAddUpdateCounterBinding
 import com.lhadalo.oladahl.numerare.presentation.model.CounterItem
@@ -41,6 +48,24 @@ class AddCounterFragment : Fragment() {
     private lateinit var navigator: NavigationDelegate
     private lateinit var viewModel: AddCounterViewModel
 
+    var menuItem: MenuItem? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun tintMenuIcon(item: MenuItem, @ColorRes color: Int) {
+        val wrapDrawable = DrawableCompat.wrap(item.icon)
+        DrawableCompat.setTint(wrapDrawable, ResourcesCompat.getColor(resources, color, null))
+        item.icon = wrapDrawable
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         getAppInjector().inject(this)
 
@@ -67,16 +92,44 @@ class AddCounterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val activity = (activity as AppCompatActivity)
+        activity.setSupportActionBar(add_update_toolbar)
+
+
+        val upArrow: Drawable = resources.getDrawable(R.drawable.ic_clear_white_24dp, null)
+        activity.supportActionBar?.setHomeAsUpIndicator(upArrow)
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val collapsingToolbarLayout = collapsing_toolbar_layout
+        collapsingToolbarLayout.setCollapsedTitleTextColor(resources.getColor(R.color.black))
+        collapsingToolbarLayout.setExpandedTitleColor(resources.getColor(android.R.color.transparent))
+
+        val statusBarHeight = statusBarHeight()
+
+        menuItem?.let {
+            tintMenuIcon(it, R.color.black)
+
+        }
+        app_bar_layout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appbar, verticalOffset ->
+            if ((collapsing_toolbar_layout.scrimVisibleHeightTrigger + statusBarHeight) - Math.abs(verticalOffset) < 0) {
+                //  Collapsed
+                upArrow.setColorFilter(resources.getColor(R.color.black), PorterDuff.Mode.SRC_ATOP)
+            } else {
+                //Expanded
+                upArrow.setColorFilter(resources.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP)
+            }
+        })
+
         attachUI()
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-
         if (context is NavigationDelegate) {
             navigator = context
         }
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -96,7 +149,8 @@ class AddCounterFragment : Fragment() {
 
     private fun attachUI() {
         if (viewModel.isInEditMode()) {
-            btn_image_delete.setOnClickListener {
+            btn_delete_counter.visibility = View.VISIBLE
+            btn_delete_counter.setOnClickListener {
                 DialogHelper.confirmDelete(context, viewModel::deleteCounter)
             }
         }
@@ -113,7 +167,7 @@ class AddCounterFragment : Fragment() {
             else AddReminderDialog.show(this, viewModel::onAddReminder)
         }
 
-        btn_image_cancel.setOnClickListener { navigator.popBackStack() }
+        //btn_image_cancel.setOnClickListener { navigator.popBackStack() }
 
         btn_layout_more_options.setOnClickListener { viewModel.checkLayoutMore() }
 
@@ -134,7 +188,7 @@ class AddCounterFragment : Fragment() {
         layout_auto_counter.visibility = if (state.autoSwitchChecked) View.VISIBLE else View.GONE
 
         //Delete button state
-        btn_image_delete.visibility = if (state.inEditMode) View.VISIBLE else View.INVISIBLE
+        //btn_image_delete.visibility = if (state.inEditMode) View.VISIBLE else View.INVISIBLE
 
         //Reminder State
         tv_reminder.text = state.reminderText
@@ -170,9 +224,11 @@ class AddCounterFragment : Fragment() {
         }
     }
 
+    private fun statusBarHeight(): Int {
+        return (24 * resources.displayMetrics.density).toInt()
+    }
 
     private fun getTitle() = et_counter_name.text.toString().trim()
 
-    //private fun getTypeDesc() = et_counter_type.text.toString().trim()
 }
 

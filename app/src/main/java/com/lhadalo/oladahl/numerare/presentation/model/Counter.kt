@@ -35,6 +35,31 @@ data class CounterItem(
 
     }
 
+    override fun toString(): String {
+        return "CounterItem(id=$id, title=$title, typeDesc=$typeDesc, counterValue=$counterValue)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CounterItem
+
+        if (id != other.id) return false
+        if (title != other.title) return false
+        if (counterValue != other.counterValue) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + (title?.hashCode() ?: 0)
+        result = 31 * result + counterValue
+        return result
+    }
+
+
     companion object CREATOR : Parcelable.Creator<CounterItem> {
         override fun createFromParcel(pIn: Parcel): CounterItem {
             return CounterItem(pIn)
@@ -44,6 +69,8 @@ data class CounterItem(
             return arrayOfNulls(size)
         }
     }
+
+
 }
 
 

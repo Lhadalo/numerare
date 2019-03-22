@@ -50,6 +50,7 @@
     <!-- Delete Dialog -->
     <string name="dialog_delete_title">Delete</string>
     <string name="dialog_delete_message">Are you sure? The counter can not be restored.</string>
+    <string name="menu_delete_title">Delete</string>
 
     <!-- endregion -->
 
