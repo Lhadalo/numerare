@@ -1,4 +1,4 @@
-# numerare
+# Numerare
 Android app in development for all things counting. Used to learn new concepts including:
 - Kotlin
 - Dependency Injection (Dagger2)
