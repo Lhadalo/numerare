@@ -1,6 +1,7 @@
 # Numerare
 Android app in development for all things counting. Used to learn new concepts including:
 - Kotlin
+- Data Binding
 - Dependency Injection (Dagger2)
 - RxJava
 - Android Architecture Components:
@@ -8,6 +9,7 @@ Android app in development for all things counting. Used to learn new concepts i
   - LiveData
   - Room
 - Good architecture with presentation, domain and data layers
+
 
 # Planned Features
 - Manual counting
